@@ -1,6 +1,7 @@
 # GUI library:
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog, ttk
+import tkinter.scrolledtext as tkst
 
 # Basic math and file operations libraries:
 import numpy as np
@@ -29,8 +30,8 @@ class DataConverterApp:
         self.label.pack()
 
         # GUI Buttons
-        self.choose_file_button = tk.Button(master, text = "Choose a File",command = self.choose_file, bg = "lightblue")
-        self.choose_file_button.pack(pady = 10, padx = 10)
+        self.choose_file_button = tk.Button(master, text="Choose File(s)", command=self.choose_files, bg="lightblue")
+        self.choose_file_button.pack(pady=10, padx=10)
 
         # NEW ADDITION: Loading bar
         self.progress = ttk.Progressbar(self.frame, length=100, mode="determinate")
@@ -40,15 +41,16 @@ class DataConverterApp:
         self.file_info_label = tk.Label(self.frame, text="", bg="lightgray")
         self.file_info_label.pack()
 
+        # New addition
     
-    def choose_file(self):
+    def choose_files(self):
         # Options for conversion:
-        file_options = ["CSV", "JSON", "XML"]
+        file_options = ["CSV", "JSON", "XML","csv","json","xml"]
         # New file name:
         new_file_name = "Converted_File"
 
         # What file does the user want to convert? Prompt the user to select a file from their PC.
-        file_path = filedialog.askopenfilename(title="Select File")
+        file_path = filedialog.askopenfilename(title="Select File") # need to change to allow multiple files.
 
         if file_path:
             print("FILE PATH TEST", file_path)
@@ -62,7 +64,7 @@ class DataConverterApp:
             print("USER CHOICE TEST", user_choice)
 
             # if the data was processed correctly (into py dict) then we check what the user requested, despite upper or lower case for file type:
-            if temp_data and user_choice.lower() in [option.lower() for option in file_options]:
+            if temp_data and user_choice.lower() in file_options:
                 self.show_loading_bar()
                 if user_choice.lower() == "csv":
                     Convert_Funcs.write_csv_file(filename=new_file_name, data=temp_data)
