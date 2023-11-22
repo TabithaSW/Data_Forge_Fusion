@@ -120,7 +120,6 @@ if __name__ == "__main__":
 
 
 # TO BE ADDED:
-# Loading bar for file being created or converted. DONE
 # User options for file name.
 # Batch processing, multiple files at once.
 # File preview of before and after.

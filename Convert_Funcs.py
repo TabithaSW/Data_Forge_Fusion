@@ -102,7 +102,7 @@ def detect_file(file_path):
 def prompt_file_choice(file_path):
         file_options = ["CSV", "JSON", "XML","csv","json","xml"]
         user_choice = simpledialog.askstring("Conversion Options","CSV, JSON, or XML?:",initialvalue=file_options[0])
-        if user_choice in file_options:
+        if user_choice.lower() in [option.lower() for option in file_options]:
             return user_choice
         else:
             messagebox.showwarning("Conversion Cancelled")
