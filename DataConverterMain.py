@@ -49,13 +49,12 @@ class DataConverterApp:
         # Once we know the current file type, let the user choose a conversion format using prmpt_file_choice func.
         user_choice = Convert_Funcs.prompt_file_choice(file_path=file_path)
         # print("USER CHOICE TEST",user_choice)
-        
         if temp_data:
             if user_choice in file_options:
                 if user_choice == "CSV":
                     Convert_Funcs.write_csv_file(filename = file_path,data=temp_data)
                 elif user_choice == "XML":
-                    Convert_Funcs.write_xml_file(filename = file_path,data=temp_data)
+                    Convert_Funcs.write_xml_file(filename = file_path,data_list=temp_data)
                 elif user_choice == "JSON":
                     Convert_Funcs.write_json_file(filename = file_path,data=temp_data)
                 # If the user picks something other than the three types:
