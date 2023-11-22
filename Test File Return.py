@@ -40,9 +40,9 @@ def read_csv_file(filename):
     return data
 
         
-file_path = filedialog.askopenfilename(title = "Select File") 
-test = Convert_Funcs.detect_file(file_path)
-print(test)
-temp = read_csv_file('crime.csv')
-print(temp[0:5])
+# file_path = filedialog.askopenfilename(title = "Select File") 
+# test = Convert_Funcs.detect_file(file_path)
+# print(test)
+# temp = read_csv_file('crime.csv')
+# print(temp[0:5])
 #write_json_file(temp)
