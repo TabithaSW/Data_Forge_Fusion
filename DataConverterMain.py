@@ -43,15 +43,15 @@ class DataConverterApp:
         # What file does the user want to convert? Prompt user to select a file from their PC.
 
         file_path = filedialog.askopenfilename(title = "Select File") 
-        # print("FILE PATH TEST",file_path)
+        print("FILE PATH TEST",file_path)
         
         # Check file type here with detect_file function, function checks type and converts to python dictionary:
         temp_data = Convert_Funcs.detect_file(file_path)
-        # print("TEMP DATA TEST",temp_data[0:5])
+        print("TEMP DATA TEST",temp_data)
 
         # Once we know the current file type, let the user choose a conversion format using prmpt_file_choice func.
         user_choice = Convert_Funcs.prompt_file_choice(file_path=file_path)
-        # print("USER CHOICE TEST",user_choice)
+        print("USER CHOICE TEST",user_choice)
 
 
         if temp_data:

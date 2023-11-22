@@ -51,7 +51,7 @@ def read_json_file(filename):
     """
     with open(filename) as json_file:
         data = json.load(json_file)
-    return data
+    return [data]
 
 # Writes to a JSON File Format
 def write_json_file(filename, data):
