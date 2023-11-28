@@ -34,6 +34,9 @@ def write_csv_file(filename, data):
     (created by one of the read_*_file functions). 
     Writes the data in the CSV format.
     """
+    filename = None
+    if not filename:
+        filename = filedialog.asksaveasfilename(defaultextension=".csv",filetypes=[("CSV File",".csv")])
     # Generate instance of new file to write:
     with open(filename, "w", newline="") as outfile:
         # Pass CSV file and dictionary keys as column headers:
@@ -58,6 +61,9 @@ def write_json_file(filename, data):
     """
     Writes JSON files. Similar to write_csv_file.
     """
+    filename = None
+    if not filename:
+        filename = filedialog.asksaveasfilename(defaultextension=".json",filetypes=[("JSON File",".json")])
     with open(filename, 'w') as file:
         json_new = json.dumps(data)
         file.write(json_new)
@@ -76,6 +82,10 @@ def read_xml_file(xml_file):
 
 # Writes to an XML File:
 def write_xml_file(filename,data_list):
+    filename = None
+    if not filename:
+        filename = filedialog.asksaveasfilename(defaultextension=".xml",filetypes=[("XML File",".xml")])
+
     # there should be a single "data" node,
     root = ET.Element("data")
     for record in data_list:
