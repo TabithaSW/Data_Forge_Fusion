@@ -18,6 +18,8 @@ Python is the main language used, the GUI is created through Tkinter.
 
 # COMING SOON ADDITIONS/CHANGES:
 - Allow file merge into singular format.
+- Connect to DBMS and export into selected file type.
+- Connect to Tableau or Power BI.
 - File preview of before and after.
 - Logging and error handling.
 - Possible file customizations.

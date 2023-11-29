@@ -22,29 +22,58 @@ class DataConverterApp:
 
         # GUI Frame for widgets:
         
-        self.frame = tk.Frame(self.master, padx = 10, pady = 10, bg = "lightgray",relief=tk.RAISED,bd=5)
+        self.frame = tk.Frame(
+            self.master,
+            padx = 20,
+            pady = 20,
+            bg = "#FFE4CF", #Bisque
+            relief=tk.GROOVE,#border style
+            bd=5, # borderwidth
+            )
         self.frame.pack(expand=True, fill="both")
 
         # GUI Label
-        self.label = tk.Label(self.frame, text = "File Type Conversion", font =('Garamond',15),bg="lightblue")
-        self.label.pack()
+        self.label = tk.Label(
+            self.frame, 
+            text = "File Type Convertor",
+            font =('Garamond',20, "bold"),
+            # bg="lightblue",
+            fg = "#2E8B57", # SeaGreen
+            )
+        self.label.pack(pady=10)
 
         # We can make an image label with logo as well:
         # photo = tk.PhotoImage(file=' ')
 
         # GUI Buttons
-        self.choose_file_button = tk.Button(master, text="Choose File(s)", command=self.choose_files, bg="lightblue",font =('Garamond',12))
-        self.choose_file_button.pack(pady=10, padx=10)
+        self.choose_file_button = tk.Button(
+            self.frame,
+            text="Choose File(s)",
+            command=self.choose_files,
+            bg="lightblue",
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 5,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+            )
+        self.choose_file_button.pack()
 
-        # NEW ADDITION: Loading bar
-        self.progress = ttk.Progressbar(self.frame, length=100, mode="determinate")
+        # GUI Loading bar
+        self.progress = ttk.Progressbar(
+            self.frame,
+            length=100,
+            mode="determinate",
+            style="TProgressbar"
+            )
         self.progress.pack(pady=5)
 
-        # NEW ADDITION: File information labels
+        # File information labels
         self.file_info_label = tk.Label(self.frame, text="", bg="lightgray")
         self.file_info_label.pack()
 
-        # New addition
+        # New addition, file preview text:
+
     
     def choose_files(self):
         # Options for conversion:
