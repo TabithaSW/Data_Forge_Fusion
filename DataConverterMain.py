@@ -29,13 +29,16 @@ class DataConverterApp:
         self.label = tk.Label(self.frame, text = "File Type Conversion", font =('Garamond',15),bg="lightblue")
         self.label.pack()
 
+        # We can make an image label with logo as well:
+        # photo = tk.PhotoImage(file=' ')
+
         # GUI Buttons
-        self.choose_file_button = tk.Button(master, text="Choose File(s)", command=self.choose_files, bg="lightblue")
+        self.choose_file_button = tk.Button(master, text="Choose File(s)", command=self.choose_files, bg="lightblue",font =('Garamond',12))
         self.choose_file_button.pack(pady=10, padx=10)
 
         # NEW ADDITION: Loading bar
         self.progress = ttk.Progressbar(self.frame, length=100, mode="determinate")
-        self.progress.pack(pady=10)
+        self.progress.pack(pady=5)
 
         # NEW ADDITION: File information labels
         self.file_info_label = tk.Label(self.frame, text="", bg="lightgray")
@@ -45,7 +48,7 @@ class DataConverterApp:
     
     def choose_files(self):
         # Options for conversion:
-        file_options = ["CSV", "JSON", "XML","csv","json","xml"]
+        file_options = ["CSV", "JSON", "XML","csv","json","xml","excel","EXCEL"]
 
         # Temporary file name until user downloads coverted file and choose new name:
         new_file_name = "Converted_File"
@@ -80,13 +83,16 @@ class DataConverterApp:
                     elif user_choice.lower() == "json":
                         self.show_loading_bar()
                         Convert_Funcs.write_json_file(filename=new_file_name, data=temp_data)
+                    elif user_choice.lower() == "excel":
+                        self.show_loading_bar()
+                        Convert_Funcs.write_to_excel(filename=new_file_name,datalist=temp_data)
 
                     # Complete loading bar
                     self.hide_loading_bar()
 
                 # If the user picks something other than the three types initially:
                 else:
-                    warn = messagebox.askokcancel("Not A Valid File Format", icon="warning")
+                    warn = messagebox.askokcancel("No Valid File Format", icon="warning")
              # Does the user have more files they want to convert?
             response = messagebox.askyesno("Conversion Complete", "Conversion complete! Do you want to convert another file?")
             if not response:

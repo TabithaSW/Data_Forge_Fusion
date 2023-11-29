@@ -110,9 +110,19 @@ def detect_file(file_path):
             return read_json_file(file_path)
         
 def prompt_file_choice(file_path):
-        file_options = ["CSV", "JSON", "XML","csv","json","xml"]
-        user_choice = simpledialog.askstring("Conversion Options","CSV, JSON, or XML?:",initialvalue=file_options[0])
+        file_options = ["CSV", "JSON", "XML","csv","json","xml","excel","EXCEL"]
+        file_name = os.path.basename(file_path)
+        user_choice = simpledialog.askstring(f"{file_name} Conversion Options","CSV, JSON, EXCEL, or XML?",initialvalue=file_options[0])
         if user_choice.lower() in [option.lower() for option in file_options]:
             return user_choice
         else:
             messagebox.showwarning("Conversion Cancelled")
+
+# NEW FORMAT, EXCEL (simplified using pandas func):
+def write_to_excel(filename, datalist):
+    filename = os.path.basename(filename)
+    custom_name = filedialog.asksaveasfilename(defaultextension=".xlsx",filetypes=[("Excel File",".xlsx")])
+    # Convert to DF using pandas from pythion dict
+    df = pd.DataFrame(data = datalist,index = [0])
+    df = (df.T) # Transform
+    df.to_excel(excel_writer=custom_name,sheet_name=filename)
