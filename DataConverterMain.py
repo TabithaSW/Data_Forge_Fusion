@@ -46,45 +46,51 @@ class DataConverterApp:
     def choose_files(self):
         # Options for conversion:
         file_options = ["CSV", "JSON", "XML","csv","json","xml"]
-        # New file name:
+
+        # Temporary file name until user downloads coverted file and choose new name:
         new_file_name = "Converted_File"
 
+
         # What file does the user want to convert? Prompt the user to select a file from their PC.
-        file_path = filedialog.askopenfilename(title="Select File") # need to change to allow multiple files.
+        file_path = filedialog.askopenfilenames(title="Select File") # need to change to allow multiple files.
+
+        # tuple to list format
+        file_path = list(file_path)
 
         if file_path:
-            print("FILE PATH TEST", file_path)
+            # for each file in the chosen
+            for i in file_path:
 
-            # Check file type here with detect_file function, function checks type and converts to python dictionary:
-            temp_data = Convert_Funcs.detect_file(file_path)
-            print("TEMP DATA TEST", temp_data)
+                # Check file type here with detect_file function, function checks type and converts to python dictionary:
+                temp_data = Convert_Funcs.detect_file(i)
 
-            # Once we know the current file type, let the user choose a conversion format using prompt_file_choice func.
-            user_choice = Convert_Funcs.prompt_file_choice(file_path=file_path)
-            print("USER CHOICE TEST", user_choice)
+                # Once we know the current file type, let the user choose a conversion format using prompt_file_choice func.
+                user_choice = Convert_Funcs.prompt_file_choice(file_path=i)
+                self.show_file_info(i, user_choice) # display files chosen
 
-            # if the data was processed correctly (into py dict) then we check what the user requested, despite upper or lower case for file type:
-            if temp_data and user_choice.lower() in file_options:
-                self.show_loading_bar()
-                if user_choice.lower() == "csv":
-                    Convert_Funcs.write_csv_file(filename=new_file_name, data=temp_data)
-                elif user_choice.lower() == "xml":
-                    Convert_Funcs.write_xml_file(filename=new_file_name, data_list=temp_data)
-                elif user_choice.lower() == "json":
-                    Convert_Funcs.write_json_file(filename=new_file_name, data=temp_data)
+                # if the data was processed correctly (into py dict) then we check what the user requested, despite upper or lower case for file type:
+                if temp_data and user_choice.lower() in file_options:
+                    
+                    if user_choice.lower() == "csv":
+                        self.show_loading_bar()
+                        Convert_Funcs.write_csv_file(filename=new_file_name, data=temp_data)
+                    elif user_choice.lower() == "xml":
+                        self.show_loading_bar()
+                        Convert_Funcs.write_xml_file(filename=new_file_name, data_list=temp_data)
+                    elif user_choice.lower() == "json":
+                        self.show_loading_bar()
+                        Convert_Funcs.write_json_file(filename=new_file_name, data=temp_data)
 
-                # Complete loading bar and display file info.
-                self.hide_loading_bar()
-                self.show_file_info(file_path, user_choice)
+                    # Complete loading bar
+                    self.hide_loading_bar()
 
-                # Does the user have more files they want to convert?
-                response = messagebox.askyesno("Conversion Complete", "Conversion complete! Do you want to convert another file?")
-                if not response:
-                    self.master.destroy()  # Close the application if the user chooses not to convert another file
-
-            # If the user picks something other than the three types initially:
-            else:
-                warn = messagebox.askokcancel("Not A Valid File Format", icon="warning")
+                # If the user picks something other than the three types initially:
+                else:
+                    warn = messagebox.askokcancel("Not A Valid File Format", icon="warning")
+             # Does the user have more files they want to convert?
+            response = messagebox.askyesno("Conversion Complete", "Conversion complete! Do you want to convert another file?")
+            if not response:
+                self.master.destroy()  # Close the application if the user chooses not to convert another file
         else:
             print("No file selected.")
 
@@ -120,7 +126,6 @@ if __name__ == "__main__":
 
 
 # TO BE ADDED:
-# User options for file name.
 # Batch processing, multiple files at once.
 # File preview of before and after.
 # Logging and error handling.
