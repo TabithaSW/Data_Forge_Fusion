@@ -106,6 +106,8 @@ def detect_file(file_path):
             return read_csv_file(file_path)
         elif file_extension == ".xml":
             return read_xml_file(file_path)
+        elif file_extension == ".xlsx":
+            return read_excel_file(file_path)
         else:
             return read_json_file(file_path)
         
@@ -126,3 +128,9 @@ def write_to_excel(filename, datalist):
     df = pd.DataFrame(data = datalist,index = [0])
     df = (df.T) # Transform
     df.to_excel(excel_writer=custom_name,sheet_name=filename)
+
+def read_excel_file(filename):
+    extract = pd.read_excel(filename)
+    data = extract.to_dict()
+    return data 
+

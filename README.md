@@ -22,9 +22,10 @@ Python is the main language used, the GUI is created through Tkinter.
 - Connect to Tableau or Power BI.
 - File preview of before and after.
 - Logging and error handling.
-- Possible file customizations.
+- User selected customization for the format of the file.
 - File comparison highlight.
 - Exporting the file elsewhere.
-- Downloading multiple copies.
 - File compression.
-- Support for other formats.
+- Convert to PDF or have an additional PDF option for download.
+- Downloading multiple copies on one run.
+- Support for other formats such as MLoad.

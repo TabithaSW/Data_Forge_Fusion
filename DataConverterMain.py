@@ -24,10 +24,10 @@ class DataConverterApp:
         
         self.frame = tk.Frame(
             self.master,
-            padx = 20,
-            pady = 20,
+            padx = 10,
+            pady = 10,
             bg = "#FFE4CF", #Bisque
-            relief=tk.GROOVE,#border style
+            relief=tk.RIDGE,#border style
             bd=5, # borderwidth
             )
         self.frame.pack(expand=True, fill="both")
@@ -57,20 +57,24 @@ class DataConverterApp:
             padx = 10,
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
-        self.choose_file_button.pack()
+        self.choose_file_button.pack(padx=5)
 
         # GUI Loading bar
         self.progress = ttk.Progressbar(
             self.frame,
-            length=100,
+            length=200,
             mode="determinate",
             style="TProgressbar"
             )
-        self.progress.pack(pady=5)
+        self.progress.pack(pady=5,padx = 5)
 
         # File information labels
-        self.file_info_label = tk.Label(self.frame, text="", bg="lightgray")
-        self.file_info_label.pack()
+        self.file_info_label = tk.Label(
+            self.frame,
+            bg = "#FFE4CF",
+            text = " "
+            )
+        self.file_info_label.pack(side=tk.BOTTOM, expand=True)
 
         # New addition, file preview text:
 
@@ -159,14 +163,3 @@ if __name__ == "__main__":
     app = DataConverterApp(root)
     root.mainloop()
 
-
-# TO BE ADDED:
-# Batch processing, multiple files at once.
-# File preview of before and after.
-# Logging and error handling.
-# Possible file customizations.
-# File comparison highlight.
-# Exporting the file elsewhere.
-# Downloading multiple copies.
-# File compression.
-# Support for other formats.
