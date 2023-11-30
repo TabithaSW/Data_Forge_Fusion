@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog, ttk
 import tkinter.scrolledtext as tkst
+import teradatasql
 
 # Basic math and file operations libraries:
 import numpy as np
@@ -76,9 +77,14 @@ class DataConverterApp:
             )
         self.file_info_label.pack(side=tk.BOTTOM, expand=True)
 
-        # New addition, file preview text:
+        # Teradata button:
+        self.connect_to_tera_button = tk.Button(
+            self.frame,
+            text = "Connect to Teradata",
+            command= self.connect_to_tera
+        )
+        self.connect_to_tera_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
 
-    
     def choose_files(self):
         # Options for conversion:
         file_options = ["CSV", "JSON", "XML","csv","json","xml","excel","EXCEL"]
@@ -142,6 +148,23 @@ class DataConverterApp:
     def hide_loading_bar(self):
         self.progress.stop()
         self.progress["value"] = 100
+
+    # Teradata connection abilities:
+    def connect_to_tera(self):
+        # connection details by user
+        server = simpledialog.askstring("Teradata Connect","Enter Server:")
+        username = simpledialog.askstring("Teradata Connect","Enter Username:")
+        password = simpledialog.askstring("Teradata Connect","Enter Password:")
+        output_file_path = simpledialog.askstring("Teradata Connect","OPTIONAL - Enter Output Path for File Save Location:")
+        # query they want to pull
+        user_query = simpledialog.askstring("SQL","Enter your Teradata Query in SQL Format:")
+        # if uery entered,
+        if user_query:
+            #call the connection func in conert_funcs:
+            query_res = Convert_Funcs.convert_teradata(username=username,server=server,password=password,query=user_query,output_path=output_file_path)
+            self.show_file_info(query_res,"CSV")
+            return query_res
+
 
 
     # Allow users to double check the file they selected by viewing it'sname and type.

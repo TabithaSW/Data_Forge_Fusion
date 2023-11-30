@@ -3,6 +3,9 @@
 Creating a file conversion tool that allows users to select XML, CSV, EXCEL, or JSON  files and create a new version in their file type choice. 
 Python is the main language used, the GUI is created through Tkinter.
 
+# Additions/Changes 11/20:
+- User can connect to Teradata and save the file in CSV Format!
+
 # Additions/Changes 11/29:
 - Select multiple files to convert at one time.
 - Allows users to choose the conversion type for each file.

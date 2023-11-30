@@ -2,6 +2,7 @@
 # basic data manipulation libraries
 import pandas as pd
 import numpy as np
+import teradatasql
 
 # File conversion libraries:
 import xml.etree.ElementTree as ET
@@ -133,4 +134,33 @@ def read_excel_file(filename):
     extract = pd.read_excel(filename)
     data = extract.to_dict()
     return data 
+
+# Lets do some DBMS stuff that made go hand in hand with file conversion.
+# Teradata to start:
+def convert_teradata(server, username, password, query,output_path = None):
+    #allow user to enter query
+    try:
+        # assign connection object
+        with teradatasql.connect(host = server, user=username,password=password) as conn:
+            # cursor to execute queries
+            with conn.cursor() as cur:
+                cur.execute(query)
+                result = cur.fetchall() # store query results
+        # lets convert this file format first,
+        csv_filename = "Teradata_Result.csv"
+        if output_path:
+            csv_filename = os.path.join(output_path, csv_filename)
+        with open(csv_filename,'w',newline='') as f:
+            csv_write = csv.writer(f)
+            # if header:
+            if cur.description:
+                csv_write.writerow([col[0] for col in cur.description])
+            # complete write 
+            csv_write.writerows(result)
+        return csv_filename
+    # if user enters illegible query, produce error by teradata.
+    except teradatasql.Error as error_:
+        return f"Error: {error_}"
+
+
 
