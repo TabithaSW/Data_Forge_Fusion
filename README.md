@@ -4,7 +4,8 @@ Creating a file conversion tool that allows users to select XML, CSV, EXCEL, or 
 Python is the main language used, the GUI is created through Tkinter.
 
 # Additions/Changes 12/4:
-- User can preview file content in a dataframe format prior to conversion.
+- User receives auto-generated preview of raw data in table format prior to conversion for both selected file data and query data.
+- User can request to preview raw file content without any conversion, limit of 1000 rows.
 
 # Additions/Changes 11/30:
 - User can connect to Teradata and save the file in CSV Format!
@@ -28,13 +29,10 @@ Python is the main language used, the GUI is created through Tkinter.
 - Logging and error handling.
 - User selected customization for the format of the file.
 - File comparison highlight.
-- Exporting the file elsewhere.
 - File compression.
 - Convert to PDF or have an additional PDF option for download.
 - Downloading multiple copies on one run.
 - Support for other formats such as MLoad. (From MLoad to CSV for Teradata)
 - Drag and drop ability for files.
-- Limit preview window for display widget.
 - Highlighting missing data values or issues. Generate a data summary.
-- Instead of converting, just allow preview of specific rows/columns. 
 - Allow user to use the program script in command prompt.

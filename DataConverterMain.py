@@ -43,22 +43,49 @@ class DataConverterApp:
             )
         self.label.pack(pady=10)
 
-        # We can make an image label with logo as well:
-        # photo = tk.PhotoImage(file=' ')
-
         # GUI Buttons
+
+        # Teradata button:
+        self.connect_to_tera_button = tk.Button(
+            self.frame,
+            text = "Connect to Teradata",
+            command= self.connect_to_tera,
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 5,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+        )
+        self.connect_to_tera_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
+        # Choose and convert button
         self.choose_file_button = tk.Button(
             self.frame,
-            text="Choose File(s)",
+            text="Choose File(s)for Conversion",
             command=self.choose_files,
-            bg="lightblue",
+            #bg="lightblue",
             fg = "#2E8B57", #seagreen
             font =('Garamond',12, "bold"),
             pady = 5,
             padx = 10,
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
-        self.choose_file_button.pack(padx=5)
+        self.choose_file_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
+        # GUI Buttons
+        self.preview_file_new = tk.Button(
+            self.frame,
+            text="Preview Raw Data from Files(s)",
+            command=self.file_preview,
+            #bg="lightblue",
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 5,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+            )
+        self.preview_file_new.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
 
         # GUI Loading bar
         self.progress = ttk.Progressbar(
@@ -67,7 +94,7 @@ class DataConverterApp:
             mode="determinate",
             style="TProgressbar"
             )
-        self.progress.pack(pady=5,padx = 5)
+        self.progress.pack(side = tk.TOP,pady=5,padx = 5)
 
         # File information labels
         self.file_info_label = tk.Label(
@@ -76,14 +103,6 @@ class DataConverterApp:
             text = " "
             )
         self.file_info_label.pack(side=tk.BOTTOM, expand=True)
-
-        # Teradata button:
-        self.connect_to_tera_button = tk.Button(
-            self.frame,
-            text = "Connect to Teradata",
-            command= self.connect_to_tera
-        )
-        self.connect_to_tera_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
 
     def choose_files(self):
         # Options for conversion:
@@ -143,7 +162,9 @@ class DataConverterApp:
                     
 
                     # Insert to widget
-                    for data, row in df_preview.iterrows(): # for each row of data
+                    for i, (data, row) in enumerate(df_preview.iterrows()): # for each row of data
+                        if i >= 1000: # preview ends at 1000 rows
+                            break
                         prev_widget.insert("",data,values=list(row)) #insert into the widget, creates new row in widget each iter
 
                     # display widget
@@ -157,12 +178,15 @@ class DataConverterApp:
                     if user_choice.lower() == "csv":
                         self.show_loading_bar()
                         Convert_Funcs.write_csv_file(filename=new_file_name, data=temp_data)
+
                     elif user_choice.lower() == "xml":
                         self.show_loading_bar()
                         Convert_Funcs.write_xml_file(filename=new_file_name, data_list=temp_data)
+
                     elif user_choice.lower() == "json":
                         self.show_loading_bar()
                         Convert_Funcs.write_json_file(filename=new_file_name, data=temp_data)
+
                     elif user_choice.lower() == "excel":
                         self.show_loading_bar()
                         Convert_Funcs.write_to_excel(filename=new_file_name,datalist=temp_data)
@@ -190,12 +214,19 @@ class DataConverterApp:
         self.progress.stop()
         self.progress["value"] = 100
 
+    # adding file preview, no conversion required:
+    def file_preview(self):
+        # What file does the user want to convert? Prompt the user to select a file from their PC.
+        file_path = filedialog.askopenfilenames(title="Select Single File for Preview",filetypes=(("CSV","*.csv"),("JSON",'*.json'),
+                                                                               ("XML","*.xml"),("Excel","*.xlsx")))
+        file_path = list(file_path) #convert from tuple
+        raw_data = Convert_Funcs.detect_file(file_path[0])
+
+        Convert_Funcs.display_teradata_preview(raw_data)
+        return
+
     # Teradata connection abilities:
     def connect_to_tera(self):
-
-        # add file preview for tableau
-        # display data preview: 
-
 
         # connection details by user
         server = simpledialog.askstring("Teradata Connect","Enter Server:")
@@ -209,6 +240,7 @@ class DataConverterApp:
             #call the connection func in conert_funcs:
             query_res = Convert_Funcs.convert_teradata(username=username,server=server,password=password,query=user_query,output_path=output_file_path)
             self.show_file_info(query_res,"CSV")
+        
             return query_res
 
 
@@ -230,4 +262,3 @@ if __name__ == "__main__":
 
     app = DataConverterApp(root)
     root.mainloop()
-

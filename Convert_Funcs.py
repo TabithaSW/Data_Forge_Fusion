@@ -102,8 +102,11 @@ def write_xml_file(filename,data_list):
     tree.write(filename)
 
 def detect_file(file_path):
+        #print("FILE PATH TES:",file_path)
         # When user is prompted to choose a file, we need to ensure it is correctly identified before conversion.
-        x, file_extension = os.path.splitext(file_path.lower()) # X is root, rest is the extension, x is throwaway var.
+        x, file_extension = os.path.splitext(file_path) # X is root, rest is the extension, x is throwaway var.
+
+        #print(file_extension,"FILE EX TEST")
 
         if file_extension == ".csv":
             return read_csv_file(file_path)
@@ -149,6 +152,7 @@ def convert_teradata(server, username, password, query,output_path = None):
             with conn.cursor() as cur:
                 cur.execute(query)
                 result = cur.fetchall() # store query results
+        display_teradata_preview(result)
 
         # lets convert this file format first,
         csv_filename = "Teradata_Result.csv"
@@ -166,7 +170,39 @@ def convert_teradata(server, username, password, query,output_path = None):
     except teradatasql.Error as error_:
         return f"Error: {error_}"
 
-# Error logging functions:
+# Teradata preview:
+def display_teradata_preview(query_result):
+
+    df_prev = pd.DataFrame(query_result)
+
+    prev_window = tk.Toplevel()
+    prev_window.title("Result Preview")
+    prev_window.geometry("500x500")
+
+    frame = ttk.Frame(prev_window)
+    frame.pack(expand=True,fill="both")
+
+    tree = ttk.Treeview(frame, show ="headings")
+    tree["columns"] = list(df_prev.columns)
+
+    for col in df_prev.columns:
+        tree.column(col, anchor = "w")
+        tree.heading(col, text = col, anchor = "w")
+
+    scrollb = ttk.Scrollbar(frame, orient = "vertical", command = tree.yview)
+    scrollb.pack(side = "right", fill = "y")
+    tree.configure(yscrollcommand = scrollb.set)
+
+    for i, (data, row) in enumerate(df_prev.iterrows()): # for each row of data
+        if i >= 1000: # preview ends at 1000 rows
+            break
+        tree.insert("",data,values=list(row)) #insert into the widget, creates new row in widget each iter
+
+    tree.pack(expand=True,fill = "both")
+
+    close_b = tk.Button(prev_window, text = "Close Preview",command = prev_window.destroy)
+    close_b.pack(side = "bottom",pady=10)
+
 
 
 
