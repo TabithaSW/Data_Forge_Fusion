@@ -94,7 +94,8 @@ class DataConverterApp:
 
 
         # What file does the user want to convert? Prompt the user to select a file from their PC.
-        file_path = filedialog.askopenfilenames(title="Select File") # need to change to allow multiple files.
+        file_path = filedialog.askopenfilenames(title="Select File",filetypes=(("CSV","*.csv"),("JSON",'*.json'),
+                                                                               ("XML","*.xml"),("Excel","*.xlsx"))) 
 
         # tuple to list format
         file_path = list(file_path)
@@ -112,6 +113,35 @@ class DataConverterApp:
 
                 # if the data was processed correctly (into py dict) then we check what the user requested, despite upper or lower case for file type:
                 if temp_data and user_choice.lower() in file_options:
+
+                    # display data preview:
+                    df_preview = pd.DataFrame(temp_data) # all my read functions convert to py dict first prior to file change.
+
+                    # create new tkinter window for preview:
+                    prev_window = tk.Toplevel(self.master)
+                    prev_window.title("File Content Preview as DataFrame")
+                    prev_window.geometry("500x500")
+
+                    #create widget for top level window (widget is a pandas df preiew)
+                    prev_widget = ttk.Treeview(prev_window)
+                    prev_widget["columns"] = list(df_preview.columns)
+
+                    # setup the df for previewing:
+                    for col in df_preview.columns:
+                        prev_widget.column(col, anchor="w")
+                        prev_widget.heading(col, text=col,anchor="w")
+
+                    # Insert to widget
+                    for data, row in df_preview.iterrows(): # for each row of data
+                        prev_widget.insert("",data,values=list(row)) #insert into the widget, creates new row in widget each iter
+
+                    # display widget
+                    prev_widget.pack(expand=True,fill="both")
+
+                    # allow user to close out the preview
+                    close_widg = tk.Button(prev_widget, text="Close Data Preview",command=prev_window.destroy)
+                    close_widg.pack(side="bottom",pady=10) 
+
                     
                     if user_choice.lower() == "csv":
                         self.show_loading_bar()
