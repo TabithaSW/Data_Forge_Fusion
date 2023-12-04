@@ -12,8 +12,10 @@ import operator
 import os
 
 #GUI Stuff
+# GUI library:
 import tkinter as tk
-from tkinter import filedialog, messagebox, simpledialog
+from tkinter import filedialog, messagebox, simpledialog, ttk
+import tkinter.scrolledtext as tkst
 
 # Reads in a CSV File
 def read_csv_file(filename):
@@ -126,13 +128,14 @@ def write_to_excel(filename, datalist):
     filename = os.path.basename(filename)
     custom_name = filedialog.asksaveasfilename(defaultextension=".xlsx",filetypes=[("Excel File",".xlsx")])
     # Convert to DF using pandas from pythion dict
-    df = pd.DataFrame(data = datalist,index = [0])
+    df = pd.DataFrame(data = datalist)
     df = (df.T) # Transform
     df.to_excel(excel_writer=custom_name,sheet_name=filename)
 
 def read_excel_file(filename):
     extract = pd.read_excel(filename)
     data = extract.to_dict()
+    print(data)
     return data 
 
 # Lets do some DBMS stuff that made go hand in hand with file conversion.
@@ -146,6 +149,7 @@ def convert_teradata(server, username, password, query,output_path = None):
             with conn.cursor() as cur:
                 cur.execute(query)
                 result = cur.fetchall() # store query results
+
         # lets convert this file format first,
         csv_filename = "Teradata_Result.csv"
         if output_path:

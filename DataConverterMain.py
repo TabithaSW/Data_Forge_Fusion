@@ -192,6 +192,11 @@ class DataConverterApp:
 
     # Teradata connection abilities:
     def connect_to_tera(self):
+
+        # add file preview for tableau
+        # display data preview: 
+
+
         # connection details by user
         server = simpledialog.askstring("Teradata Connect","Enter Server:")
         username = simpledialog.askstring("Teradata Connect","Enter Username:")
