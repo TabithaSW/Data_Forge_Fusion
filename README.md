@@ -7,6 +7,8 @@ Python is the main language used, the GUI is created through Tkinter.
 - User receives auto-generated preview of raw data in table format prior to conversion for both selected file data and query data.
 - User can request to preview raw file content without any conversion, limit of 1000 rows.
 - Data summary available of rows, columns, nulls, or missing data avilable when selecting file preview.
+- Horizontal scroll added for file preview.
+- Updated read/write functions for Excel, faster processing, less data amount limitations.
 
 # Additions/Changes 11/30:
 - User can connect to Teradata and save the file in CSV Format!
@@ -42,3 +44,4 @@ Python is the main language used, the GUI is created through Tkinter.
 - Fix ? and * counts.
 - Add data summary to Teradata Preview.
 - Allow users to choose filetype after Teradata extract complete as CSV.
+- Finish error logging py file so users can generate bug reports.

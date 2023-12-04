@@ -168,7 +168,11 @@ class DataConverterApp:
                     my_scroll = ttk.Scrollbar(frame_2,orient="vertical",command=prev_widget.yview )
                     my_scroll.pack(side="right",fill="y")
 
+                    horiz_scroll = ttk.Scrollbar(frame_2, orient = "horizontal", command = prev_widget.xview)
+                    horiz_scroll.pack(side = "bottom",fill = "x")
+
                     prev_widget.configure(yscrollcommand=my_scroll.set)
+                    prev_widget.configure(xscrollcommand = horiz_scroll.set)
                     
 
                     # Insert to widget
@@ -199,7 +203,7 @@ class DataConverterApp:
 
                     elif user_choice.lower() == "excel":
                         self.show_loading_bar()
-                        Convert_Funcs.write_to_excel(filename=new_file_name,datalist=temp_data)
+                        Convert_Funcs.write_excel_file(filepath=new_file_name,datalist=temp_data)
 
                     # Complete loading bar
                     self.hide_loading_bar()
@@ -252,7 +256,7 @@ class DataConverterApp:
             f"Total Columns:   {total_cols}\n"
             f"Missing or Empty Values:   {missing_vals}\n"
             f"Null Values:   {has_null_vals}\n"
-            f"Values with ? or *:   {total_rows}\n"
+            #f"Values with ? or *:   {total_rows}\n"
 
         )
         self.summary_label.config(text=s_text,font=('Garamond', 12), bg="lightgray")

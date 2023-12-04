@@ -8,6 +8,7 @@ import teradatasql
 import xml.etree.ElementTree as ET
 import json
 import csv
+import openpyxl
 import operator
 import os
 
@@ -126,20 +127,37 @@ def prompt_file_choice(file_path):
         else:
             messagebox.showwarning("Conversion Cancelled")
 
-# NEW FORMAT, EXCEL (simplified using pandas func):
-def write_to_excel(filename, datalist):
-    filename = os.path.basename(filename)
+# NEW FORMAT, EXCEL:
+def write_excel_file(datalist,filepath):
+    # allow users to choose filename
+    filename = os.path.basename(filepath)
     custom_name = filedialog.asksaveasfilename(defaultextension=".xlsx",filetypes=[("Excel File",".xlsx")])
-    # Convert to DF using pandas from pythion dict
-    df = pd.DataFrame(data = datalist)
-    df = (df.T) # Transform
-    df.to_excel(excel_writer=custom_name,sheet_name=filename)
 
-def read_excel_file(filename):
-    extract = pd.read_excel(filename)
-    data = extract.to_dict()
-    print(data)
-    return data 
+    # create excel template workbook
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    
+    # headers 
+    headers = list(datalist[0].keys())
+    sheet.append(headers)
+
+    for dict_ in datalist:
+        sheet.append([dict_[header] for header in headers])
+    workbook.save(custom_name)
+
+# changed to using openpyxl because of pandas limit
+def read_excel_file(file_path):
+    # excel files are workbooks compirsed of individual sheets of data
+    workbook = openpyxl.load_workbook(file_path)
+    sheet = workbook.active
+    headers = [cell.value for cell in sheet[1]]
+
+    datalist = [] #all my read funcs convert to a python list of dictionaries.
+    # start at second row, pass header.
+    for row in sheet.iter_rows(min_row = 2, values_only = True):
+        row_dict = dict(zip(headers,row)) # need to zip headers if multiple sheets
+        datalist.append(row_dict)
+    return datalist
 
 # Lets do some DBMS stuff that made go hand in hand with file conversion.
 # Teradata to start:
@@ -191,7 +209,12 @@ def display_teradata_preview(query_result):
 
     scrollb = ttk.Scrollbar(frame, orient = "vertical", command = tree.yview)
     scrollb.pack(side = "right", fill = "y")
+
+    horiz_scroll = ttk.Scrollbar(frame, orient = "horizontal", command = tree.xview)
+    horiz_scroll.pack(side = "bottom",fill = "x")
+
     tree.configure(yscrollcommand = scrollb.set)
+    tree.configure(xscrollcommand = horiz_scroll.set)
 
     for i, (data, row) in enumerate(df_prev.iterrows()): # for each row of data
         if i >= 1000: # preview ends at 1000 rows
