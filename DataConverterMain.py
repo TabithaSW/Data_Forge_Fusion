@@ -41,7 +41,7 @@ class DataConverterApp:
             # bg="lightblue",
             fg = "#2E8B57", # SeaGreen
             )
-        self.label.pack(pady=10)
+        self.label.pack(expand=True,pady=10)
 
         # GUI Buttons
 
@@ -61,7 +61,7 @@ class DataConverterApp:
         # Choose and convert button
         self.choose_file_button = tk.Button(
             self.frame,
-            text="Choose File(s)for Conversion",
+            text="Choose File(s) for Conversion",
             command=self.choose_files,
             #bg="lightblue",
             fg = "#2E8B57", #seagreen
@@ -75,7 +75,7 @@ class DataConverterApp:
         # GUI Buttons
         self.preview_file_new = tk.Button(
             self.frame,
-            text="Preview Raw Data from Files(s)",
+            text="Preview & Summary of Raw Data from Files(s)",
             command=self.file_preview,
             #bg="lightblue",
             fg = "#2E8B57", #seagreen
@@ -96,11 +96,21 @@ class DataConverterApp:
             )
         self.progress.pack(side = tk.TOP,pady=5,padx = 5)
 
+        # Data summary label
+        self.summary_label = tk.Label(
+            self.frame,
+            bg = "#FFE4CF",
+            text = "",
+            font =('Garamond',12)
+            )
+        self.summary_label.pack(side=tk.BOTTOM, expand=True)
+
         # File information labels
         self.file_info_label = tk.Label(
             self.frame,
             bg = "#FFE4CF",
-            text = " "
+            text = " ",
+            font =('Garamond',12)
             )
         self.file_info_label.pack(side=tk.BOTTOM, expand=True)
 
@@ -222,8 +232,30 @@ class DataConverterApp:
         file_path = list(file_path) #convert from tuple
         raw_data = Convert_Funcs.detect_file(file_path[0])
 
+        #update summary label
+        self.summary_data(raw_data)
+
         Convert_Funcs.display_teradata_preview(raw_data)
         return
+
+    def summary_data(self,data):
+        print("DATA TEST",data)
+        total_rows = len(data)
+        total_cols = len(data[0]) if data else 0
+        missing_vals = sum(1 for row in data if any(str(value).strip()== '' or str(value) == "" for value in row.values()))
+        has_null_vals = sum(1 for row in data if any(value is None or pd.isna(value) for value in row.values()))
+        question_mark_vals = sum(1 for row in data if any(str(value).strip() == '*' or str(value).strip() == '?' for value in row.values()))
+
+        s_text = (
+            "DATA SUMMARY: "
+            f"Total Rows:   {total_rows}\n"
+            f"Total Columns:   {total_cols}\n"
+            f"Missing or Empty Values:   {missing_vals}\n"
+            f"Null Values:   {has_null_vals}\n"
+            f"Values with ? or *:   {total_rows}\n"
+
+        )
+        self.summary_label.config(text=s_text,font=('Garamond', 12), bg="lightgray")
 
     # Teradata connection abilities:
     def connect_to_tera(self):
@@ -255,7 +287,7 @@ if __name__ == "__main__":
     root = tk.Tk()
 
     # Set the initial size of the main window
-    root.geometry("400x300")  # Adjust the size as needed
+    root.geometry("400x600")  # Adjust the size as needed
 
     # Allow resizing both horizontally and vertically
     root.resizable(True, True)

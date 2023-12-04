@@ -206,3 +206,4 @@ def display_teradata_preview(query_result):
 
 
 
+

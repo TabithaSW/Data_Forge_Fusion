@@ -6,6 +6,7 @@ Python is the main language used, the GUI is created through Tkinter.
 # Additions/Changes 12/4:
 - User receives auto-generated preview of raw data in table format prior to conversion for both selected file data and query data.
 - User can request to preview raw file content without any conversion, limit of 1000 rows.
+- Data summary available of rows, columns, nulls, or missing data avilable when selecting file preview.
 
 # Additions/Changes 11/30:
 - User can connect to Teradata and save the file in CSV Format!
@@ -27,12 +28,17 @@ Python is the main language used, the GUI is created through Tkinter.
 - Allow file merge into singular format.
 - Connect to Tableau or Power BI.
 - Logging and error handling.
-- User selected customization for the format of the file.
-- File comparison highlight.
 - File compression.
 - Convert to PDF or have an additional PDF option for download.
 - Downloading multiple copies on one run.
 - Support for other formats such as MLoad. (From MLoad to CSV for Teradata)
 - Drag and drop ability for files.
-- Highlighting missing data values or issues. Generate a data summary.
 - Allow user to use the program script in command prompt.
+- Allow users to make changes based off raw data in the file preview option.
+- Highlight values missing/null found from summary function.
+
+
+# Small fixes to do:
+- Fix ? and * counts.
+- Add data summary to Teradata Preview.
+- Allow users to choose filetype after Teradata extract complete as CSV.
