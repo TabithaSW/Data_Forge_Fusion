@@ -122,14 +122,24 @@ class DataConverterApp:
                     prev_window.title("File Content Preview as DataFrame")
                     prev_window.geometry("500x500")
 
+                    # decided to add scrollbar so we're going from frame to widget (tree) first
+                    frame_2 = ttk.Frame(prev_window)
+                    frame_2.pack(expand=True,fill="both")
+
                     #create widget for top level window (widget is a pandas df preiew)
-                    prev_widget = ttk.Treeview(prev_window)
+                    prev_widget = ttk.Treeview(frame_2)
                     prev_widget["columns"] = list(df_preview.columns)
 
                     # setup the df for previewing:
                     for col in df_preview.columns:
                         prev_widget.column(col, anchor="w")
                         prev_widget.heading(col, text=col,anchor="w")
+
+                    # create scrollbar instance
+                    my_scroll = ttk.Scrollbar(frame_2,orient="vertical",command=prev_widget.yview )
+                    my_scroll.pack(side="right",fill="y")
+
+                    prev_widget.configure(yscrollcommand=my_scroll.set)
 
                     # Insert to widget
                     for data, row in df_preview.iterrows(): # for each row of data
