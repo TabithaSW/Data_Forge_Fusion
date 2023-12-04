@@ -162,5 +162,7 @@ def convert_teradata(server, username, password, query,output_path = None):
     except teradatasql.Error as error_:
         return f"Error: {error_}"
 
+# Error logging functions:
+
 
 

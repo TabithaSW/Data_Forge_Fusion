@@ -127,10 +127,10 @@ class DataConverterApp:
                     frame_2.pack(expand=True,fill="both")
 
                     #create widget for top level window (widget is a pandas df preiew)
-                    prev_widget = ttk.Treeview(frame_2)
-                    prev_widget["columns"] = list(df_preview.columns)
+                    prev_widget = ttk.Treeview(frame_2,show="headings") #treeview allows hierarchical collection of items, like a table.
+                    prev_widget["columns"] = list(df_preview.columns) # each col in df = 1 col in widget treeview
 
-                    # setup the df for previewing:
+                    # setup the df for previewing, configure display of the cols:
                     for col in df_preview.columns:
                         prev_widget.column(col, anchor="w")
                         prev_widget.heading(col, text=col,anchor="w")
@@ -140,6 +140,7 @@ class DataConverterApp:
                     my_scroll.pack(side="right",fill="y")
 
                     prev_widget.configure(yscrollcommand=my_scroll.set)
+                    
 
                     # Insert to widget
                     for data, row in df_preview.iterrows(): # for each row of data
@@ -204,7 +205,6 @@ class DataConverterApp:
             query_res = Convert_Funcs.convert_teradata(username=username,server=server,password=password,query=user_query,output_path=output_file_path)
             self.show_file_info(query_res,"CSV")
             return query_res
-
 
 
     # Allow users to double check the file they selected by viewing it'sname and type.
