@@ -1,11 +1,13 @@
-# Data-File-Convertor
+# File Conversion Tool
 
-Creating a file conversion tool that allows users to select XML, CSV, EXCEL, or JSON  files and create a new version in their file type choice. 
+A file conversion tool that allows users to select from XML, CSV, EXCEL, or JSON  files and convert them to another user defined format. Users can also preview all data prior to conversion, or view raw data without converting at all. Users can submit custom SQL Teradata queries, preview the data, and save the results. If issues arise, a bug report form is included in the application.
+
 Python is the main language used, the GUI is created through Tkinter.
 
 # Additions/Changes 12/5:
 - Users can view summary stats for Teradata queries.
 - Users can choose filename and save location for Teradata queries.
+- Add a bug report feature, requires email and wifi to submit per user.
 
 # Additions/Changes 12/4:
 - User receives auto-generated preview of raw data in table format prior to conversion for both selected file data and query data.

@@ -12,6 +12,9 @@ import os
 # Import the read/write functions
 import Convert_Funcs
 
+# bug report packages
+import webbrowser
+
 
 class DataConverterApp:
     # Initialize attributes
@@ -44,6 +47,18 @@ class DataConverterApp:
         self.label.pack(expand=True,pady=10)
 
         # GUI Buttons
+        # Bug Report Form button
+        self.Bug_Report_Form = tk.Button(
+            self.frame,
+            text = "Report a Bug",
+            command= self.open_bug_report_form,
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',10, "bold"),
+            pady = 5,
+            padx = 5,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+        )
+        self.Bug_Report_Form.pack(side=tk.BOTTOM,expand=True,padx=5,pady=5)
 
         # Teradata button:
         self.connect_to_tera_button = tk.Button(
@@ -57,6 +72,7 @@ class DataConverterApp:
             cursor="hand2" # allows diff cursor over button, user knows to click
         )
         self.connect_to_tera_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
 
         # Choose and convert button
         self.choose_file_button = tk.Button(
@@ -72,7 +88,7 @@ class DataConverterApp:
             )
         self.choose_file_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
 
-        # GUI Buttons
+        # file preview button
         self.preview_file_new = tk.Button(
             self.frame,
             text="Preview & Summary of Raw Data from Files(s)",
@@ -241,6 +257,14 @@ class DataConverterApp:
 
         Convert_Funcs.display_teradata_preview(raw_data)
         return
+    
+    def open_bug_report_form(self):
+        response = messagebox.askyesno(title="Bug Report Form",message="The Bug Report Form requires WIFI and Google sign in. Would you like to proceed?")
+        if response:
+            form_link = 'https://docs.google.com/forms/d/e/1FAIpQLSenWSnSEtqWfIO900PvIJawnd0Tx3k8OLrGBcDnMnAK-Xdqfg/viewform?usp=sf_link'
+            webbrowser.open(form_link)
+        return
+
 
     def summary_data(self,data):
         #print("DATA TEST",data)
