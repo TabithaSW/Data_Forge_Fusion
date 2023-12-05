@@ -32,7 +32,7 @@ Python is the main language used, the GUI is created through Tkinter.
 - Displays a progress bar for the file being converted.
 - Displays file selected in the application and the chosen conversion type.
 
-# COMING SOON ADDITIONS/CHANGES:
+# COMING SOON:
 - Allow file merge into singular format.
 - Connect to Tableau or Power BI.
 - Logging and error handling.
