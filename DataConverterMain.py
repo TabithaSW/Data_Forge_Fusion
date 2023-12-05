@@ -243,7 +243,7 @@ class DataConverterApp:
         return
 
     def summary_data(self,data):
-        print("DATA TEST",data)
+        #print("DATA TEST",data)
         total_rows = len(data)
         total_cols = len(data[0]) if data else 0
         missing_vals = sum(1 for row in data if any(str(value).strip()== '' or str(value) == "" for value in row.values()))
@@ -251,7 +251,7 @@ class DataConverterApp:
         question_mark_vals = sum(1 for row in data if any(str(value).strip() == '*' or str(value).strip() == '?' for value in row.values()))
 
         s_text = (
-            "DATA SUMMARY: "
+            f"DATA SUMMARY: \n"
             f"Total Rows:   {total_rows}\n"
             f"Total Columns:   {total_cols}\n"
             f"Missing or Empty Values:   {missing_vals}\n"
@@ -274,9 +274,19 @@ class DataConverterApp:
         # if uery entered,
         if user_query:
             #call the connection func in conert_funcs:
-            query_res = Convert_Funcs.convert_teradata(username=username,server=server,password=password,query=user_query,output_path=output_file_path)
+            query_res = Convert_Funcs.convert_teradata(username=username,server=server,password=password,query=user_query,
+                                                       output_path=output_file_path)
+            
+            # display file info
             self.show_file_info(query_res,"CSV")
-        
+
+            # Use read func and then do the summary using the converted csv.
+            summary_data = Convert_Funcs.read_csv_file(query_res)
+            self.summary_data(data = summary_data)
+            
+            response = messagebox.askyesno("Query Complete", "Query complete! Would you like to convert a file or submit another query?")
+            if not response:
+                self.master.destroy()  # Close the application if the user chooses not to convert another file
             return query_res
 
 

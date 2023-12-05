@@ -18,6 +18,9 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog, ttk
 import tkinter.scrolledtext as tkst
 
+# Need some small funcs from main py
+import DataConverterMain
+
 # Reads in a CSV File
 def read_csv_file(filename):
     # Dictionary Object to store data:
@@ -169,11 +172,13 @@ def convert_teradata(server, username, password, query,output_path = None):
             # cursor to execute queries
             with conn.cursor() as cur:
                 cur.execute(query)
+                cols = [col[0] for col in cur.description]
                 result = cur.fetchall() # store query results
-        display_teradata_preview(result)
+
+        display_teradata_preview(query_result=result,headers=cols)
 
         # lets convert this file format first,
-        csv_filename = "Teradata_Result.csv"
+        csv_filename = filedialog.asksaveasfilename(defaultextension=".csv",filetypes=[("CSV File",".csv")])
         if output_path:
             csv_filename = os.path.join(output_path, csv_filename)
         with open(csv_filename,'w',newline='') as f:
@@ -183,14 +188,15 @@ def convert_teradata(server, username, password, query,output_path = None):
                 csv_write.writerow([col[0] for col in cur.description])
             # complete write 
             csv_write.writerows(result)
+            
         return csv_filename
     # if user enters illegible query, produce error by teradata.
     except teradatasql.Error as error_:
         return f"Error: {error_}"
 
 # Teradata preview:
-def display_teradata_preview(query_result):
-
+def display_teradata_preview(query_result,headers=None):
+    # preview window
     df_prev = pd.DataFrame(query_result)
 
     prev_window = tk.Toplevel()
@@ -225,8 +231,3 @@ def display_teradata_preview(query_result):
 
     close_b = tk.Button(prev_window, text = "Close Preview",command = prev_window.destroy)
     close_b.pack(side = "bottom",pady=10)
-
-
-
-
-

@@ -3,6 +3,10 @@
 Creating a file conversion tool that allows users to select XML, CSV, EXCEL, or JSON  files and create a new version in their file type choice. 
 Python is the main language used, the GUI is created through Tkinter.
 
+# Additions/Changes 12/5:
+- Users can view summary stats for Teradata queries.
+- Users can choose filename and save location for Teradata queries.
+
 # Additions/Changes 12/4:
 - User receives auto-generated preview of raw data in table format prior to conversion for both selected file data and query data.
 - User can request to preview raw file content without any conversion, limit of 1000 rows.
@@ -42,6 +46,4 @@ Python is the main language used, the GUI is created through Tkinter.
 
 # Small fixes to do:
 - Fix ? and * counts.
-- Add data summary to Teradata Preview.
-- Allow users to choose filetype after Teradata extract complete as CSV.
 - Finish error logging py file so users can generate bug reports.
