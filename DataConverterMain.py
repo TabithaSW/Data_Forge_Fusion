@@ -53,12 +53,12 @@ class DataConverterApp:
             text = "Report a Bug",
             command= self.open_bug_report_form,
             fg = "#2E8B57", #seagreen
-            font =('Garamond',10, "bold"),
-            pady = 5,
-            padx = 5,
+            font =('Garamond',12, "bold"),
+            pady = 10,
+            padx = 10,
             cursor="hand2" # allows diff cursor over button, user knows to click
         )
-        self.Bug_Report_Form.pack(side=tk.BOTTOM,expand=True,padx=5,pady=5)
+        self.Bug_Report_Form.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
 
         # Teradata button:
         self.connect_to_tera_button = tk.Button(
