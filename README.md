@@ -44,9 +44,3 @@ Python is the main language used, the GUI is created through Tkinter.
 - Allow user to use the program script in command prompt.
 - Allow users to make changes based off raw data in the file preview option.
 - Highlight values missing/null found from summary function.
-- 
-
-
-# Small fixes to do:
-- Fix ? and * counts.
-- Finish error logging py file so users can generate bug reports.
