@@ -7,12 +7,12 @@ Python is the main language used, the GUI is created through Tkinter.
 # Additions/Changes 12/5:
 - Users can view summary stats for Teradata queries.
 - Users can choose filename and save location for Teradata queries.
-- Add a bug report feature, requires email and wifi to submit per user.
+- Added a bug report feature, requires email and wifi to submit per user.
 
 # Additions/Changes 12/4:
 - User receives auto-generated preview of raw data in table format prior to conversion for both selected file data and query data.
 - User can request to preview raw file content without any conversion, limit of 1000 rows.
-- Data summary available of rows, columns, nulls, or missing data avilable when selecting file preview.
+- Data summary available of rows, columns, nulls, or missing data available when selecting file preview.
 - Horizontal scroll added for file preview.
 - Updated read/write functions for Excel, faster processing, less data amount limitations.
 
