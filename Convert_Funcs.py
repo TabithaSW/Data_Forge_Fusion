@@ -11,6 +11,7 @@ import csv
 import openpyxl
 import operator
 import os
+import dask.dataframe as dd
 
 #GUI Stuff
 # GUI library:
@@ -231,3 +232,34 @@ def display_teradata_preview(query_result,headers=None):
 
     close_b = tk.Button(prev_window, text = "Close Preview",command = prev_window.destroy)
     close_b.pack(side = "bottom",pady=10)
+    return
+
+# joining files together and converting func
+def file_merge(data1,data2):
+    # pandas take the already converted files and put into df format 
+    df1 = dd.from_pandas(pd.DataFrame(data1), npartitions=1)
+    df2 = dd.from_pandas(pd.DataFrame(data2), npartitions=1)
+
+    print("DATAFRAME TEST",df1)
+
+    # merge files
+    merge_dfs = dd.merge(df1,df2,how="left",on=list(set(df1.columns) & set(df2.columns)))
+
+    # let user choose format and name post merge
+    output_type = simpledialog.askstring("Output File Type","Choose Output File Type (CSV, JSON, XML, EXCEL):")
+    name = filedialog.asksaveasfilename(defaultextension=f".{output_type.lower()}",
+                                        filetypes=[(f"{output_type} File",f".{output_type.lower()}")])
+    
+    # check file type to compute the change from the merged filetye
+    # can use my write funcs with this merge df from dask, need to use dask funcs
+    if output_type.lower() == "csv":
+        merge_dfs.compute().to_csv(name,index = False)
+    elif output_type.lower() == "xml":
+        merge_dfs.compute().to_xml(name,index = False)
+    elif output_type.lower() == "json":
+        merge_dfs.compute().to_json(name,orient = 'records',lines = True) # same to json as my own func result
+    elif output_type.lower() == "excel":
+        merge_dfs.compute().to_excel(name,index = False)
+    else:
+        warn = messagebox.askokcancel("No Valid File Format", icon="warning")
+    return name

@@ -4,6 +4,11 @@ A file conversion tool that allows users to select from XML, CSV, EXCEL, or JSON
 
 Python is the main language used, the GUI is created through Tkinter.
 
+# Additions/Changes 12/7:
+- Password entry is now hidden when connecting to Teradata.
+- Added ability to merge two files of any time. The merge will be done via left join properties.
+- Merge ability allows user to save results as a file name and type of their choice.
+
 # Additions/Changes 12/5:
 - Users can view summary stats for Teradata queries.
 - Users can choose filename and save location for Teradata queries.
@@ -33,7 +38,7 @@ Python is the main language used, the GUI is created through Tkinter.
 - Displays file selected in the application and the chosen conversion type.
 
 # COMING SOON:
-- Allow file merge into singular format.
+- Allow file merge/join into singular format.
 - Connect to Tableau or Power BI.
 - Logging and error handling.
 - File compression.

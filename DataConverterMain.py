@@ -60,6 +60,20 @@ class DataConverterApp:
         )
         self.Bug_Report_Form.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
 
+        # file preview button
+        self.left_merge = tk.Button(
+            self.frame,
+            text="Merge & Convert Files(s)",
+            command=self.left_join,
+            #bg="lightblue",
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 5,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+            )
+        self.left_merge.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
         # Teradata button:
         self.connect_to_tera_button = tk.Button(
             self.frame,
@@ -233,7 +247,22 @@ class DataConverterApp:
                 self.master.destroy()  # Close the application if the user chooses not to convert another file
         else:
             print("No file selected.")
+    
+    def left_join(self):
+        # What files does the user want to join
+        file_path = filedialog.askopenfilenames(title="Select File",filetypes=(("CSV","*.csv"),("JSON",'*.json'),
+                                                                               ("XML","*.xml"),("Excel","*.xlsx")))
 
+        # tuple to list format
+        file_path = list(file_path)
+
+        # convert both to python dict
+        data1 = Convert_Funcs.detect_file(file_path[0])
+        data2 = Convert_Funcs.detect_file(file_path[1])
+
+        Convert_Funcs.file_merge(data1,data2)
+
+        return
     
     # Loading bar for when file conversions will complete, new addition.
     def show_loading_bar(self):
@@ -285,13 +314,17 @@ class DataConverterApp:
         )
         self.summary_label.config(text=s_text,font=('Garamond', 12), bg="lightgray")
 
+    # password hidden entry func for teradata
+    def hide_input(self,title, prompt):
+        return simpledialog.askstring(title,prompt,show = "*")
+
     # Teradata connection abilities:
     def connect_to_tera(self):
 
         # connection details by user
         server = simpledialog.askstring("Teradata Connect","Enter Server:")
         username = simpledialog.askstring("Teradata Connect","Enter Username:")
-        password = simpledialog.askstring("Teradata Connect","Enter Password:")
+        password = self.hide_input("Teradata Connect","Enter Password:")
         output_file_path = simpledialog.askstring("Teradata Connect","OPTIONAL - Enter Output Path for File Save Location:")
         # query they want to pull
         user_query = simpledialog.askstring("SQL","Enter your Teradata Query in SQL Format:")
