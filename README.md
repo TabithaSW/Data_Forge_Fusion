@@ -38,9 +38,7 @@ Python is the main language used, the GUI is created through Tkinter.
 - Displays file selected in the application and the chosen conversion type.
 
 # COMING SOON:
-- Allow file merge/join into singular format.
 - Connect to Tableau or Power BI.
-- Logging and error handling.
 - File compression.
 - Convert to PDF or have an additional PDF option for download.
 - Downloading multiple copies on one run.
