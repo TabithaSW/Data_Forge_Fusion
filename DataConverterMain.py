@@ -30,92 +30,23 @@ class DataConverterApp:
             self.master,
             padx = 10,
             pady = 10,
-            bg = "#FFE4CF", #Bisque
             relief=tk.RIDGE,#border style
             bd=5, # borderwidth
             )
         self.frame.pack(expand=True, fill="both")
 
-        # GUI Label
-        self.label = tk.Label(
-            self.frame, 
-            text = "File Type Convertor",
-            font =('Garamond',20, "bold"),
-            # bg="lightblue",
-            fg = "#2E8B57", # SeaGreen
-            )
-        self.label.pack(expand=True,pady=10)
+        # lets make a menu/dropdown containing all the buttons instead of individual ones
+        menu_drop = tk.Menu(self.frame,tearoff=0, font=('Garamond',12,'bold'),fg='#2E8B57')
+        master.config(menu = menu_drop)
+        file_menu = tk.Menu(menu_drop, tearoff=0,font=('Garamond',12,'bold'),fg='#2E8B57') #
+        menu_drop.add_cascade(label = "Application Options: ",menu=file_menu,font=('Garamond',12,'bold'))
 
-        # GUI Buttons
-        # Bug Report Form button
-        self.Bug_Report_Form = tk.Button(
-            self.frame,
-            text = "Report a Bug",
-            command= self.open_bug_report_form,
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 10,
-            padx = 10,
-            cursor="hand2" # allows diff cursor over button, user knows to click
-        )
-        self.Bug_Report_Form.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
-
-        # file preview button
-        self.left_merge = tk.Button(
-            self.frame,
-            text="Merge & Convert Files(s)",
-            command=self.left_join,
-            #bg="lightblue",
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 5,
-            padx = 10,
-            cursor="hand2" # allows diff cursor over button, user knows to click
-            )
-        self.left_merge.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
-
-        # Teradata button:
-        self.connect_to_tera_button = tk.Button(
-            self.frame,
-            text = "Connect to Teradata",
-            command= self.connect_to_tera,
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 5,
-            padx = 10,
-            cursor="hand2" # allows diff cursor over button, user knows to click
-        )
-        self.connect_to_tera_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
-
-
-        # Choose and convert button
-        self.choose_file_button = tk.Button(
-            self.frame,
-            text="Choose File(s) for Conversion",
-            command=self.choose_files,
-            #bg="lightblue",
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 5,
-            padx = 10,
-            cursor="hand2" # allows diff cursor over button, user knows to click
-            )
-        self.choose_file_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
-
-        # file preview button
-        self.preview_file_new = tk.Button(
-            self.frame,
-            text="Preview & Summary of Raw Data from Files(s)",
-            command=self.file_preview,
-            #bg="lightblue",
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 5,
-            padx = 10,
-            cursor="hand2" # allows diff cursor over button, user knows to click
-            )
-        self.preview_file_new.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
-
+        # all buttons so far and commands
+        file_menu.add_command(label="Preview & Summary of Raw Data from Files(s)",command=self.file_preview)
+        file_menu.add_command(label="Choose File(s) for Conversion",command=self.choose_files)
+        file_menu.add_command(label="Connect to Teradata",command = self.connect_to_tera)
+        file_menu.add_command(label="Report a Bug",command=self.open_bug_report_form)
+        file_menu.add_command(label="Merge & Convert Files",command=self.left_join)
 
         # GUI Loading bar
         self.progress = ttk.Progressbar(
@@ -129,7 +60,6 @@ class DataConverterApp:
         # Data summary label
         self.summary_label = tk.Label(
             self.frame,
-            bg = "#FFE4CF",
             text = "",
             font =('Garamond',12)
             )
@@ -138,7 +68,6 @@ class DataConverterApp:
         # File information labels
         self.file_info_label = tk.Label(
             self.frame,
-            bg = "#FFE4CF",
             text = " ",
             font =('Garamond',12)
             )
@@ -358,10 +287,12 @@ if __name__ == "__main__":
     root = tk.Tk()
 
     # Set the initial size of the main window
-    root.geometry("400x600")  # Adjust the size as needed
+    root.geometry("300x200")  # Adjust the size as needed
 
     # Allow resizing both horizontally and vertically
     root.resizable(True, True)
+
+    root.title("File Conversion Application")
 
     app = DataConverterApp(root)
     root.mainloop()
