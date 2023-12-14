@@ -4,6 +4,9 @@ A file conversion tool that allows users to select from XML, CSV, EXCEL, or JSON
 
 Python is the main language used, the GUI is created through Tkinter.
 
+# Additions/Changes 12/14:
+- Added the ability for the user to select more join types, (inner, left, right, outer) and join on column.
+
 # Additions/Changes 12/12:
 - Changed all buttons into a simple drop down, cleaned up the design.
 
@@ -47,6 +50,9 @@ Python is the main language used, the GUI is created through Tkinter.
 - Downloading multiple copies on one run.
 - Support for other formats such as MLoad. (From MLoad to CSV for Teradata)
 - Drag and drop ability for files.
-- Allow user to use the program script in command prompt.
 - Allow users to make changes based off raw data in the file preview option.
 - Highlight values missing/null found from summary function.
+- Allow headers to have an assigned data type if they're in csv/excel format.
+- Allow users to look at batch jobs in ETL tables and query a command to rerun and see job status. (Teradata Specific)
+- Allow users to interact with linux/WINSCP to view batch jobs and files.
+ - Allow user to use the program script in command prompt.
