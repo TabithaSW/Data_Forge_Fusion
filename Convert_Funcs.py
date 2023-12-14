@@ -18,6 +18,7 @@ import dask.dataframe as dd
 import tkinter as tk
 from tkinter import filedialog, messagebox, simpledialog, ttk
 import tkinter.scrolledtext as tkst
+import tkinterdnd2
 
 # Need some small funcs from main py
 import DataConverterMain
@@ -240,10 +241,29 @@ def file_merge(data1,data2):
     df1 = dd.from_pandas(pd.DataFrame(data1), npartitions=1)
     df2 = dd.from_pandas(pd.DataFrame(data2), npartitions=1)
 
-    print("DATAFRAME TEST",df1)
+    # let user select join type 
+    j_types = ['inner','left','right','outer']
+    j_type = simpledialog.askstring("Join Type","Join Type Options: Inner, Left, Outer, Right:")
+    j_type = j_type.lower() 
+    
+    # incase user mistype
+    if j_type not in j_types:
+        messagebox.showwarning("Invalid Selection","Please select a valid join type.")
+        return
+
+    # ask user for join type
+    j_col = simpledialog.askstring("Join Condition","Enter the primary column to join on:")
+
+    # incase of user error when choosing col
+    if j_col not in df1.columns or j_col not in df2.columns:
+        messagebox.showwarning("Invalid Column Choice","The specified column does not exist in both datasets.")
+        return
+
+    # test 
+    # print("DATAFRAME TEST",df1)
 
     # merge files
-    merge_dfs = dd.merge(df1,df2,how="left",on=list(set(df1.columns) & set(df2.columns)))
+    merge_dfs = dd.merge(df1,df2,how=j_type,on=j_col) # check for multi col abilities for on
 
     # let user choose format and name post merge
     output_type = simpledialog.askstring("Output File Type","Choose Output File Type (CSV, JSON, XML, EXCEL):")
