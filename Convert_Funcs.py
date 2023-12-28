@@ -283,3 +283,17 @@ def file_merge(data1,data2):
     else:
         warn = messagebox.askokcancel("No Valid File Format", icon="warning")
     return name
+
+def batch_jobs():
+    # allow users to view jobs by area and status.
+    # allow users to run the job using teradata commands.
+    pass
+
+def commands_p():
+    # cli commands for terminal use of application
+    pass
+
+def winscp_conn():
+    # allow users to interact with winscp or linux based system 
+    # view and download files from linux server
+    pass
