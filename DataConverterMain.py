@@ -36,9 +36,9 @@ class DataConverterApp:
         self.frame.pack(expand=True, fill="both")
 
         # lets make a menu/dropdown containing all the buttons instead of individual ones
-        menu_drop = tk.Menu(self.frame,tearoff=0, font=('Garamond',12,'bold'),fg='#2E8B57')
+        menu_drop = tk.Menu(self.frame,tearoff=0, font=('Garamond',12,'bold'))#fg='#2E8B57')
         master.config(menu = menu_drop)
-        file_menu = tk.Menu(menu_drop, tearoff=0,font=('Garamond',12,'bold'),fg='#2E8B57') #
+        file_menu = tk.Menu(menu_drop, tearoff=0,font=('Garamond',12,'bold'))#fg='#2E8B57') #
         menu_drop.add_cascade(label = "Application Options: ",menu=file_menu,font=('Garamond',12,'bold'))
 
         # all buttons so far and commands

@@ -203,7 +203,7 @@ def display_teradata_preview(query_result,headers=None):
 
     prev_window = tk.Toplevel()
     prev_window.title("Result Preview")
-    prev_window.geometry("500x500")
+    prev_window.geometry("1500x500")
 
     frame = ttk.Frame(prev_window)
     frame.pack(expand=True,fill="both")
