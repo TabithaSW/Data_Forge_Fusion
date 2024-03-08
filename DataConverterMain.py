@@ -24,54 +24,148 @@ class DataConverterApp:
         # GUI Title: 
         self.master.title("File Convertor") # Application name
 
-        # GUI Frame for widgets:
-        
-        self.frame = tk.Frame(
-            self.master,
-            padx = 10,
-            pady = 10,
-            relief=tk.RIDGE,#border style
-            bd=5, # borderwidth
-            )
-        self.frame.pack(expand=True, fill="both")
+        # lets make this tabular, new design:
+        MainTabs = ttk.Notebook(self.master)
 
-        # lets make a menu/dropdown containing all the buttons instead of individual ones
-        menu_drop = tk.Menu(self.frame,tearoff=0, font=('Garamond',12,'bold'))#fg='#2E8B57')
-        master.config(menu = menu_drop)
-        file_menu = tk.Menu(menu_drop, tearoff=0,font=('Garamond',12,'bold'))#fg='#2E8B57') #
-        menu_drop.add_cascade(label = "Application Options: ",menu=file_menu,font=('Garamond',12,'bold'))
-
-        # all buttons so far and commands
-        file_menu.add_command(label="Preview & Summary of Raw Data from Files(s)",command=self.file_preview)
-        file_menu.add_command(label="Choose File(s) for Conversion",command=self.choose_files)
-        file_menu.add_command(label="Connect to Teradata",command = self.connect_to_tera)
-        file_menu.add_command(label="Report a Bug",command=self.open_bug_report_form)
-        file_menu.add_command(label="Merge & Convert Files",command=self.left_join)
-
-        # GUI Loading bar
         self.progress = ttk.Progressbar(
-            self.frame,
+            self.master,
             length=200,
             mode="determinate",
             style="TProgressbar"
             )
         self.progress.pack(side = tk.TOP,pady=5,padx = 5)
 
+        Conversion_Tasks = ttk.Frame(MainTabs) 
+        self.conversion_tab = Conversion_Tasks
+        Analytic_Tasks = ttk.Frame(MainTabs)
+        self.analysis_tab = Analytic_Tasks
+        Connections = ttk.Frame(MainTabs)
+        self.connect_tab = Connections
+        Report_Settings = ttk.Frame(MainTabs)
+        self.report_tab = Report_Settings
+
+        MainTabs.add(Conversion_Tasks, text ='Conversion') 
+        MainTabs.add(Analytic_Tasks, text ='Analytic Options') 
+        MainTabs.add(Connections, text ='Connections') 
+        MainTabs.add(Report_Settings, text ='Settings & Reports') 
+        MainTabs.pack(expand = 1, fill ="both")        
+
+        # Bug Report Form button
+        self.Bug_Report_Form = tk.Button(
+            self.report_tab,
+            text = "Report a Bug",
+            command= self.open_bug_report_form,
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 10,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+        )
+        self.Bug_Report_Form.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
         # Data summary label
         self.summary_label = tk.Label(
-            self.frame,
+            self.conversion_tab,
             text = "",
             font =('Garamond',12)
             )
         self.summary_label.pack(side=tk.BOTTOM, expand=True)
 
+        # Data summary label for other tab
+        self.summary_label = tk.Label(
+            self.analysis_tab,
+            text = "",
+            font =('Garamond',12)
+            )
+        self.summary_label.pack(side=tk.BOTTOM, expand=True)
+
+        # file merge button
+        self.left_merge = tk.Button(
+            self.analysis_tab,
+            text="Merge & Convert Files(s)",
+            command=self.left_join,
+            #bg="lightblue",
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 5,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+            )
+        self.left_merge.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
+        # Teradata button:
+        self.connect_to_tera_button = tk.Button(
+            self.connect_tab,
+            text = "Connect to Teradata",
+            command= self.connect_to_tera,
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 5,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+        )
+        self.connect_to_tera_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
+
+        # Choose and convert button
+        self.choose_file_button = tk.Button(
+            self.conversion_tab,
+            text="Choose File(s) for Conversion",
+            command=self.choose_files,
+            #bg="lightblue",
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 5,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+            )
+        self.choose_file_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
+        # file preview button
+        self.preview_file_new = tk.Button(
+            self.conversion_tab,
+            text="Preview & Summary of Raw Data from Files(s)",
+            command=self.file_preview,
+            #bg="lightblue",
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 5,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+            )
+        self.preview_file_new.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
+        # 2nd file preview button
+        self.preview_file_new = tk.Button(
+            self.analysis_tab,
+            text="Preview & Summary of Raw Data from Files(s)",
+            command=self.file_preview,
+            #bg="lightblue",
+            fg = "#2E8B57", #seagreen
+            font =('Garamond',12, "bold"),
+            pady = 5,
+            padx = 10,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+            )
+        self.preview_file_new.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+
+
         # File information labels
         self.file_info_label = tk.Label(
-            self.frame,
+            self.conversion_tab,
             text = " ",
             font =('Garamond',12)
             )
         self.file_info_label.pack(side=tk.BOTTOM, expand=True)
+
+        # 2nd File information labels secondary tab version
+        self.file_info_label = tk.Label(
+            self.analysis_tab,
+            text = " ",
+            font =('Garamond',12)
+            )
+        self.file_info_label.pack(side=tk.BOTTOM, expand=True)
+        
 
     def choose_files(self):
         # Options for conversion:
