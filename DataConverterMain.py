@@ -221,6 +221,33 @@ class DataConverterApp:
                     # display data preview:
                     df_preview = pd.DataFrame(temp_data) # all my read functions convert to py dict first prior to file change.
 
+                    # TRTYING TO IMPLEMENT COLUMN SORT:
+
+                    # Create a dictionary to keep track of the sorting order for each column
+                    sort_orders = {col: "ascending" for col in df_preview.columns}
+
+                    def toggle_sort(column):
+                        # Access sort_orders with nonlocal keyword to modify it within this nested function
+                        nonlocal sort_orders
+
+                        # Determine the next sorting order
+                        next_order = "descending" if sort_orders[column] == "ascending" else "ascending"
+                        
+                        # Sort the DataFrame based on the column and order
+                        sorted_df = df_preview.sort_values(by=column, ascending=(next_order == "ascending"))
+                        
+                        # Update the Treeview with sorted data
+                        for row in prev_widget.get_children():
+                            prev_widget.delete(row)
+                        for index, row in sorted_df.iterrows():
+                            prev_widget.insert("", tk.END, values=list(row))
+                        
+                        # Update the sorting order for the next click
+                        sort_orders[column] = next_order
+
+
+
+
                     # create new tkinter window for preview:
                     prev_window = tk.Toplevel(self.master)
                     prev_window.title("File Content Preview as DataFrame")
@@ -234,10 +261,12 @@ class DataConverterApp:
                     prev_widget = ttk.Treeview(frame_2,show="headings") #treeview allows hierarchical collection of items, like a table.
                     prev_widget["columns"] = list(df_preview.columns) # each col in df = 1 col in widget treeview
 
-                    # setup the df for previewing, configure display of the cols:
+
+                    # Configure the columns and headings in the Treeview, and assign the sorting function to the heading command
                     for col in df_preview.columns:
                         prev_widget.column(col, anchor="w")
-                        prev_widget.heading(col, text=col,anchor="w")
+                        prev_widget.heading(col, text=col.capitalize(), anchor="w",
+                                            command=lambda c=col: toggle_sort(c))
 
                     # create scrollbar instance
                     my_scroll = ttk.Scrollbar(frame_2,orient="vertical",command=prev_widget.yview )
@@ -251,10 +280,12 @@ class DataConverterApp:
                     
 
                     # Insert to widget
-                    for i, (data, row) in enumerate(df_preview.iterrows()): # for each row of data
-                        if i >= 1000: # preview ends at 1000 rows
+                    # Insert the initial unsorted data into the Treeview
+                    for i, row in df_preview.iterrows():
+                        if i >= 1000:  # Limit to 1000 rows
                             break
-                        prev_widget.insert("",data,values=list(row)) #insert into the widget, creates new row in widget each iter
+                        prev_widget.insert("", "end", values=list(row)) 
+                    #insert into the widget, creates new row in widget each iter
 
                     # display widget
                     prev_widget.pack(expand=True,fill="both")
@@ -318,6 +349,19 @@ class DataConverterApp:
         self.progress.stop()
         self.progress["value"] = 100
 
+    def sort_by_column(self, col, reverse):
+        """Sort treeview content by given column."""
+        l = [(self.prev_widget.set(k, col), k) for k in self.prev_widget.get_children('')]
+        l.sort(reverse=reverse)
+
+        # Rearrange items in sorted positions
+        for index, (val, k) in enumerate(l):
+            self.prev_widget.move(k, '', index)
+
+        # Reverse sort next time
+        self.sort_order[col] = "descending" if self.sort_order[col] == "ascending" else "ascending"
+
+
     # adding file preview, no conversion required:
     def file_preview(self):
         # What file does the user want to convert? Prompt the user to select a file from their PC.
@@ -359,7 +403,8 @@ class DataConverterApp:
         plot_types = [("Bar", "bar"), ("Scatter", "scatter"), ("Violin", "violin")]
         tk.Label(plot_config_window, text="Select plot type:").pack(anchor='w')
         for text, mode in plot_types:
-            tk.Radiobutton(plot_config_window, text=text, variable=plot_type_var, value=mode).pack(anchor='w')
+            tk.Radiobutton(plot_config_window, text=text, variable=plot_type_var, value=mode,
+                   font=('Helvetica', 14), indicatoron=0, width=20, height=2, background='lightblue').pack(anchor='w', pady=5)
 
         # Combobox for selecting the X and Y columns
         tk.Label(plot_config_window, text="Select X column:").pack(anchor='w')

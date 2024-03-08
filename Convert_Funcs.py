@@ -214,9 +214,31 @@ def display_teradata_preview(query_result,headers=None):
     tree = ttk.Treeview(frame, show ="headings")
     tree["columns"] = list(df_prev.columns)
 
+    # Initialize sort order for each column
+    sort_orders = {col: "ascending" for col in df_prev.columns}
+
+    def toggle_sort(column):
+        nonlocal sort_orders  # Access the sort_orders variable in the outer scope
+
+        # Determine the next sort order
+        next_order = "descending" if sort_orders[column] == "ascending" else "ascending"
+
+        # Sort the DataFrame
+        sorted_df = df_prev.sort_values(by=column, ascending=(next_order == "ascending"))
+
+        # Clear existing rows and insert sorted data
+        for row in tree.get_children():
+            tree.delete(row)
+        for index, row in sorted_df.iterrows():
+            tree.insert("", "end", values=list(row))
+        
+        # Toggle sort order for next click
+        sort_orders[column] = next_order
+
+    # Set up columns and headings with sorting functionality
     for col in df_prev.columns:
-        tree.column(col, anchor = "w")
-        tree.heading(col, text = col, anchor = "w")
+        tree.column(col, anchor="w")
+        tree.heading(col, text=col.capitalize(), anchor="w", command=lambda c=col: toggle_sort(c))
 
     scrollb = ttk.Scrollbar(frame, orient = "vertical", command = tree.yview)
     scrollb.pack(side = "right", fill = "y")
@@ -227,15 +249,17 @@ def display_teradata_preview(query_result,headers=None):
     tree.configure(yscrollcommand = scrollb.set)
     tree.configure(xscrollcommand = horiz_scroll.set)
 
-    for i, (data, row) in enumerate(df_prev.iterrows()): # for each row of data
-        if i >= 1000: # preview ends at 1000 rows
+    # Insert data into the Treeview
+    for i, row in enumerate(df_prev.iterrows()):
+        if i >= 1000:  # Limit to the first 1000 rows
             break
-        tree.insert("",data,values=list(row)) #insert into the widget, creates new row in widget each iter
+        tree.insert("", "end", values=list(row[1]))  # Adjusted to correctly unpack row data
 
-    tree.pack(expand=True,fill = "both")
+    tree.pack(expand=True, fill="both")
 
-    close_b = tk.Button(prev_window, text = "Close Preview",command = prev_window.destroy)
-    close_b.pack(side = "bottom",pady=10)
+    # Button to close the preview window
+    close_b = tk.Button(prev_window, text="Close Preview", command=prev_window.destroy)
+    close_b.pack(side="bottom", pady=10)
     return
 
 # joining files together and converting func
@@ -288,7 +312,7 @@ def file_merge(data1,data2):
     return name
 
 def create_plot(data, x_column, y_column=None, plot_type='bar'):
-    
+
     """
     Create basic plots based on user input.
 
