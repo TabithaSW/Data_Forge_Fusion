@@ -1,15 +1,15 @@
-Copyright (c) 2024, TabithaSW 
+# Copyright (c) 2024, TabithaSW
 
 All Rights Reserved.
 
-This software and its source code are made available for viewing and downloading exclusively for personal and educational use. 
+"Data Forge" software and its source code are made available for viewing and downloading exclusively for personal and educational use.
 
-Restrictions:
+**Restrictions:**
 
-1. Unauthorized copying of this software, its source code, or any of its components is strictly prohibited.
-2. You may not modify, merge, publish, distribute, sublicense, or sell copies of the Software.
-3. You may not use this software or any of its parts to create derivative works or to replicate the functionality for public use or distribution, including but not limited to hosting on repositories or distribution as part of other software.
+1. Unauthorized copying of "Data Forge", its source code, or any of its components is strictly prohibited.
+2. You may not modify, merge, publish, distribute, sublicense, or sell copies of "Data Forge".
+3. You may not use "Data Forge" or any of its parts to create derivative works or to replicate the functionality for public use or distribution, including but not limited to hosting on repositories or distribution as part of other software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-This license applies only to the code contained within this repository and does not extend to any libraries or software that may be used by this repository. The use of Python libraries such as Tkinter, pandas, numpy, OpenCV, xml.etree.ElementTree, and json is governed by their respective licenses.
+This license applies only to the code contained within this repository and does not extend to any libraries or software that may be used by "Data Forge". The use of Python libraries such as Tkinter, pandas, numpy, and json, as well as any other libraries or software, is governed by their respective licenses.
