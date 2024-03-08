@@ -1,6 +1,6 @@
 # Data Forge
 
-| ![Figure 1](logo.png) |
+| ![Figure 1](logo.png) 
 
 Data Forge simplifies your data tasks, offering a straightforward toolkit for anyone looking to convert, analyze, and visualize data with ease. From XML to JSON, CSV to Excel, Data Forge handles a variety of formats, allowing seamless conversions and direct connections to Teradata databases for comprehensive data management.
 
