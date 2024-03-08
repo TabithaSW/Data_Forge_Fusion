@@ -65,11 +65,11 @@ class DataConverterApp:
         self.Bug_Report_Form.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
         # Data summary label
-        self.summary_label = tk.Label(
+        self.summary_label1 = tk.Label(
             self.conversion_tab,
             font =('Helvetica', 10)
             )
-        self.summary_label.pack(side=tk.BOTTOM, expand=True)
+        self.summary_label1.pack(side=tk.BOTTOM, expand=True)
 
         # Data summary label for other tab
         self.summary_label = tk.Label(
@@ -145,12 +145,12 @@ class DataConverterApp:
         self.file_info_label.pack(side=tk.BOTTOM, expand=True)
 
         # 2nd File information labels secondary tab version
-        self.file_info_label = tk.Label(
+        self.file_info_label1 = tk.Label(
             self.analysis_tab,
             text = " ",
             font =('Helvetica', 10)
             )
-        self.file_info_label.pack(side=tk.BOTTOM, expand=True)
+        self.file_info_label1.pack(side=tk.BOTTOM, expand=True)
 
     
         # end progress bar
@@ -180,9 +180,17 @@ class DataConverterApp:
 
                 # Check file type here with detect_file function, function checks type and converts to python dictionary:
                 temp_data = Convert_Funcs.detect_file(i)
-                #update summary label
+
+
+                """
+                # Need to fix:
+                update summary label
                 self.summary_data(temp_data)
                 messagebox.showinfo(title="File Summary",message="File Summary Content Appears In Main Window")
+                
+                
+                """
+                
 
                 # Once we know the current file type, let the user choose a conversion format using prompt_file_choice func.
                 user_choice = Convert_Funcs.prompt_file_choice(file_path=i)
@@ -316,7 +324,7 @@ class DataConverterApp:
 
 
     def summary_data(self,data):
-        #print("DATA TEST",data)
+        print("DATA TEST",data[0:3])
         total_rows = len(data)
         total_cols = len(data[0]) if data else 0
         missing_vals = sum(1 for row in data if any(str(value).strip()== '' or str(value) == "" for value in row.values()))
@@ -332,7 +340,8 @@ class DataConverterApp:
             #f"Values with ? or *:   {total_rows}\n"
 
         )
-        self.summary_label.config(text=s_text,font=('Garamond', 12), bg="lightgray")
+        self.summary_label.config(text=s_text,font=('Helvetica', 10), bg="lightgray")
+        self.summary_label1.config(text=s_text,font=('Helvetica', 10), bg="lightgray")
 
     # password hidden entry func for teradata
     def hide_input(self,title, prompt):
@@ -371,6 +380,7 @@ class DataConverterApp:
     def show_file_info(self, file_path, user_choice):
         #Take the current file name and whatever the user chooses to convert it to and display it under the progress bar.
         file_name = os.path.basename(file_path)
+        self.file_info_label1.config(text=f"Selected File: {file_name}\nConversion Type: {user_choice}", font=('Garamond', 12), bg="lightgray"
         self.file_info_label.config(text=f"Selected File: {file_name}\nConversion Type: {user_choice}", font=('Garamond', 12), bg="lightgray")
     
 
