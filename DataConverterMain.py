@@ -24,6 +24,15 @@ class DataConverterApp:
         # GUI Title: 
         self.master.title("File Convertor") # Application name
 
+        # Load the logo image
+        self.logo_image = tk.PhotoImage(file="logo.png")  # Ensure 'logo.png' is the correct path
+        # Resize the logo image (adjust the subsample values as needed to fit your GUI)
+        self.logo_image = self.logo_image.subsample(4, 4)  # Example: subsample to 1/3 of the original size
+
+        # Display the logo - adjust 'side' to tk.LEFT for top left positioning
+        self.logo_label = tk.Label(self.master, image=self.logo_image)
+        self.logo_label.pack(side=tk.LEFT, pady=10, padx=10, anchor='ne')
+
         # lets make this tabular, new design:
         MainTabs = ttk.Notebook(self.master)
 
@@ -441,7 +450,7 @@ if __name__ == "__main__":
     root = tk.Tk()
 
     # Set the initial size of the main window
-    root.geometry("400x400")  # Adjust the size as needed
+    root.geometry("500x500")  # Adjust the size as needed
 
     # Allow resizing both horizontally and vertically
     root.resizable(True, True)
