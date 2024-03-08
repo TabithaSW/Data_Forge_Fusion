@@ -4,6 +4,9 @@ import pandas as pd
 import numpy as np
 import teradatasql
 
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 # File conversion libraries:
 import xml.etree.ElementTree as ET
 import json
@@ -283,6 +286,43 @@ def file_merge(data1,data2):
     else:
         warn = messagebox.askokcancel("No Valid File Format", icon="warning")
     return name
+
+def create_plot(data, x_column, y_column=None, plot_type='bar'):
+    
+    """
+    Create basic plots based on user input.
+
+    Parameters:
+    - data (pd.DataFrame): The dataset containing the data.
+    - x_column (str): The column name to be used on the x-axis.
+    - y_column (str, optional): The column name to be used on the y-axis for scatter and violin plots. 
+                                Not used for bar plots.
+    - plot_type (str): The type of plot to create. Options are 'bar', 'scatter', 'violin'.
+    """
+
+    if plot_type == 'bar':
+        # For bar plots, we'll assume it's a count plot of categories if y_column is None
+        plt.figure(figsize=(10, 6))
+        sns.countplot(x=x_column, data=data)
+        plt.title(f'Bar Plot of {x_column}')
+    elif plot_type == 'scatter' and y_column is not None:
+        # Scatter plot requires both x and y columns
+        plt.figure(figsize=(10, 6))
+        sns.scatterplot(x=x_column, y=y_column, data=data)
+        plt.title(f'Scatter Plot of {x_column} vs {y_column}')
+    elif plot_type == 'violin' and y_column is not None:
+        # Violin plot requires both x and y columns
+        plt.figure(figsize=(10, 6))
+        sns.violinplot(x=x_column, y=y_column, data=data)
+        plt.title(f'Violin Plot of {x_column} vs {y_column}')
+    else:
+        print("Invalid plot type or missing arguments.")
+        return
+
+    plt.xlabel(x_column)
+    if y_column:
+        plt.ylabel(y_column)
+    plt.show()
 
 def batch_jobs():
     # allow users to view jobs by area and status.

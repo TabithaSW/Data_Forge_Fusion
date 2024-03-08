@@ -1,5 +1,7 @@
-# File Conversion Tool
+# Data Forge
 
-A file conversion tool that allows users to select from XML, CSV, EXCEL, or JSON  files and convert them to another user defined format. Users can also preview all data prior to conversion, or view raw data without converting at all. Users can submit custom SQL Teradata queries, preview the data, and save the results. Analysis tools such as merging file types and data summaries are available as well. If issues arise, a bug report form is included in the application.
+Data Forge simplifies your data tasks, offering a straightforward toolkit for anyone looking to convert, analyze, and visualize data with ease. From XML to JSON, CSV to Excel, Data Forge handles a variety of formats, allowing seamless conversions and direct connections to Teradata databases for comprehensive data management.
 
-Python is the main language used, the GUI is created through Tkinter. Currently working on making a enhanced GUI using the customtkinter package!
+Preview your data, merge files across formats, and uncover insights with data summaries that highlight missing values. Visualize your findings with simple yet effective bar, scatter, or violin plots. Plus, a built-in bug report form ensures support is always within reach.
+
+Data Forge: Streamlining your data journey.

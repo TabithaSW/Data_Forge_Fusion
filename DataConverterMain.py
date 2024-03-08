@@ -64,6 +64,16 @@ class DataConverterApp:
         )
         self.Bug_Report_Form.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
+        # plot_analysis for creating custom plots from your data!
+        self.Plot_Tool = tk.Button(
+            self.analysis_tab,
+            text = "Custom Plot Creation",
+            command= self.plot_analysis,
+            **button_style,
+            cursor="hand2" # allows diff cursor over button, user knows to click
+        )
+        self.Plot_Tool.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
+
         # Data summary label
         self.summary_label1 = tk.Label(
             self.conversion_tab,
@@ -321,6 +331,49 @@ class DataConverterApp:
             form_link = 'https://docs.google.com/forms/d/e/1FAIpQLSenWSnSEtqWfIO900PvIJawnd0Tx3k8OLrGBcDnMnAK-Xdqfg/viewform?usp=sf_link'
             webbrowser.open(form_link)
         return
+    
+    def plot_analysis(self):
+        file_path = filedialog.askopenfilenames(title="Select Single File for Preview",filetypes=(("CSV","*.csv"),("JSON",'*.json'),
+                                                                               ("XML","*.xml"),("Excel","*.xlsx")))
+        file_path = list(file_path) #convert from tuple
+        raw_data = Convert_Funcs.detect_file(file_path[0]) # creates the raw data 
+        df_preview = pd.DataFrame(raw_data) # turn it into a pd dataframe
+
+        # Setting up a new Tkinter window for plot configuration
+        plot_config_window = tk.Toplevel(self.master)
+        plot_config_window.title("Plot Configuration")
+
+        # Variable for storing the plot type selection
+        plot_type_var = tk.StringVar(value="bar")
+
+        # Radio buttons for selecting the plot type
+        plot_types = [("Bar", "bar"), ("Scatter", "scatter"), ("Violin", "violin")]
+        tk.Label(plot_config_window, text="Select plot type:").pack(anchor='w')
+        for text, mode in plot_types:
+            tk.Radiobutton(plot_config_window, text=text, variable=plot_type_var, value=mode).pack(anchor='w')
+
+        # Combobox for selecting the X and Y columns
+        tk.Label(plot_config_window, text="Select X column:").pack(anchor='w')
+        x_column = ttk.Combobox(plot_config_window, values=list(df_preview.columns))
+        x_column.pack(fill='x', expand=True)
+
+        tk.Label(plot_config_window, text="Select Y column:").pack(anchor='w')
+        y_column = ttk.Combobox(plot_config_window, values=list(df_preview.columns))
+        y_column.pack(fill='x', expand=True)
+
+        # Function to handle plot creation
+        def on_create_plot():
+            if plot_type_var.get() in ['scatter', 'violin'] and (not x_column.get() or not y_column.get()):
+                tk.messagebox.showerror("Error", "Please select both X and Y columns for scatter and violin plots.")
+                return
+            Convert_Funcs.create_plot(df_preview, x_column.get(), y_column.get(), plot_type_var.get())  # Assuming 'create_plot' can handle these params
+            plot_config_window.destroy()
+
+        # Button to create the plot
+        tk.Button(plot_config_window, text="Create Plot", command=on_create_plot).pack(pady=10)
+
+        return  # The plotting function itself should handle plot display/save
+        
 
 
     def summary_data(self,data):
@@ -380,7 +433,7 @@ class DataConverterApp:
     def show_file_info(self, file_path, user_choice):
         #Take the current file name and whatever the user chooses to convert it to and display it under the progress bar.
         file_name = os.path.basename(file_path)
-        self.file_info_label1.config(text=f"Selected File: {file_name}\nConversion Type: {user_choice}", font=('Garamond', 12), bg="lightgray"
+        self.file_info_label1.config(text=f"Selected File: {file_name}\nConversion Type: {user_choice}", font=('Garamond', 12), bg="lightgray")
         self.file_info_label.config(text=f"Selected File: {file_name}\nConversion Type: {user_choice}", font=('Garamond', 12), bg="lightgray")
     
 
