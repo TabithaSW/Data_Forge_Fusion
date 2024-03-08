@@ -62,7 +62,7 @@ class DataConverterApp:
             **button_style,
             cursor="hand2" # allows diff cursor over button, user knows to click
         )
-        self.Bug_Report_Form.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+        self.Bug_Report_Form.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
         # Data summary label
         self.summary_label = tk.Label(
@@ -89,7 +89,7 @@ class DataConverterApp:
             **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
-        self.left_merge.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+        self.left_merge.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
         # Teradata button:
         self.connect_to_tera_button = tk.Button(
@@ -99,7 +99,7 @@ class DataConverterApp:
             **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
         )
-        self.connect_to_tera_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+        self.connect_to_tera_button.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
 
         # Choose and convert button
@@ -111,7 +111,7 @@ class DataConverterApp:
             **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
-        self.choose_file_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+        self.choose_file_button.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
         # file preview button
         self.preview_file_new = tk.Button(
@@ -122,7 +122,7 @@ class DataConverterApp:
             **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
-        self.preview_file_new.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+        self.preview_file_new.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
         # 2nd file preview button
         self.preview_file_new = tk.Button(
@@ -133,7 +133,7 @@ class DataConverterApp:
             **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
-        self.preview_file_new.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
+        self.preview_file_new.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
 
         # File information labels
@@ -151,6 +151,12 @@ class DataConverterApp:
             font =('Helvetica', 10)
             )
         self.file_info_label.pack(side=tk.BOTTOM, expand=True)
+
+    
+        # end progress bar
+        # Repack progress bar at the end or at the desired location
+        self.progress.pack_forget()  # Remove the current packing
+        self.progress.pack(side=tk.BOTTOM, pady=5, padx=5)
         
 
     def choose_files(self):
@@ -174,6 +180,9 @@ class DataConverterApp:
 
                 # Check file type here with detect_file function, function checks type and converts to python dictionary:
                 temp_data = Convert_Funcs.detect_file(i)
+                #update summary label
+                self.summary_data(temp_data)
+                messagebox.showinfo(title="File Summary",message="File Summary Content Appears In Main Window")
 
                 # Once we know the current file type, let the user choose a conversion format using prompt_file_choice func.
                 user_choice = Convert_Funcs.prompt_file_choice(file_path=i)
@@ -292,6 +301,8 @@ class DataConverterApp:
 
         #update summary label
         self.summary_data(raw_data)
+        messagebox.showinfo(title="File Summary",message="File Summary Content Appears In Main Window")
+
 
         Convert_Funcs.display_teradata_preview(raw_data)
         return
