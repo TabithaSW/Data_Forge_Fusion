@@ -48,17 +48,18 @@ class DataConverterApp:
         MainTabs.add(Analytic_Tasks, text ='Analytic Options') 
         MainTabs.add(Connections, text ='Connections') 
         MainTabs.add(Report_Settings, text ='Settings & Reports') 
-        MainTabs.pack(expand = 1, fill ="both")        
+        MainTabs.pack(expand = 1, fill ="both")      
+
+
+        # Style the buttons:
+        button_style = {'font': ('Helvetica', 10), 'pady': 3, 'padx': 5}  
 
         # Bug Report Form button
         self.Bug_Report_Form = tk.Button(
             self.report_tab,
             text = "Report a Bug",
             command= self.open_bug_report_form,
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 10,
-            padx = 10,
+            **button_style,
             cursor="hand2" # allows diff cursor over button, user knows to click
         )
         self.Bug_Report_Form.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
@@ -66,8 +67,7 @@ class DataConverterApp:
         # Data summary label
         self.summary_label = tk.Label(
             self.conversion_tab,
-            text = "",
-            font =('Garamond',12)
+            font =('Helvetica', 10)
             )
         self.summary_label.pack(side=tk.BOTTOM, expand=True)
 
@@ -75,7 +75,7 @@ class DataConverterApp:
         self.summary_label = tk.Label(
             self.analysis_tab,
             text = "",
-            font =('Garamond',12)
+            font =('Helvetica', 10)
             )
         self.summary_label.pack(side=tk.BOTTOM, expand=True)
 
@@ -85,10 +85,8 @@ class DataConverterApp:
             text="Merge & Convert Files(s)",
             command=self.left_join,
             #bg="lightblue",
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 5,
-            padx = 10,
+            # fg = "#2E8B57", #seagreen
+            **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
         self.left_merge.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
@@ -98,10 +96,7 @@ class DataConverterApp:
             self.connect_tab,
             text = "Connect to Teradata",
             command= self.connect_to_tera,
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 5,
-            padx = 10,
+            **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
         )
         self.connect_to_tera_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
@@ -113,10 +108,7 @@ class DataConverterApp:
             text="Choose File(s) for Conversion",
             command=self.choose_files,
             #bg="lightblue",
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 5,
-            padx = 10,
+            **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
         self.choose_file_button.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
@@ -127,10 +119,7 @@ class DataConverterApp:
             text="Preview & Summary of Raw Data from Files(s)",
             command=self.file_preview,
             #bg="lightblue",
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 5,
-            padx = 10,
+            **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
         self.preview_file_new.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
@@ -141,10 +130,7 @@ class DataConverterApp:
             text="Preview & Summary of Raw Data from Files(s)",
             command=self.file_preview,
             #bg="lightblue",
-            fg = "#2E8B57", #seagreen
-            font =('Garamond',12, "bold"),
-            pady = 5,
-            padx = 10,
+            **button_style,  # Apply the common button style
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
         self.preview_file_new.pack(side=tk.BOTTOM,expand=True,padx=10,pady=10)
@@ -154,7 +140,7 @@ class DataConverterApp:
         self.file_info_label = tk.Label(
             self.conversion_tab,
             text = " ",
-            font =('Garamond',12)
+            font =('Helvetica', 10)
             )
         self.file_info_label.pack(side=tk.BOTTOM, expand=True)
 
@@ -162,7 +148,7 @@ class DataConverterApp:
         self.file_info_label = tk.Label(
             self.analysis_tab,
             text = " ",
-            font =('Garamond',12)
+            font =('Helvetica', 10)
             )
         self.file_info_label.pack(side=tk.BOTTOM, expand=True)
         
@@ -381,7 +367,7 @@ if __name__ == "__main__":
     root = tk.Tk()
 
     # Set the initial size of the main window
-    root.geometry("300x200")  # Adjust the size as needed
+    root.geometry("400x400")  # Adjust the size as needed
 
     # Allow resizing both horizontally and vertically
     root.resizable(True, True)
