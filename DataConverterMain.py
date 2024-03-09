@@ -33,6 +33,13 @@ class DataConverterApp:
         self.logo_label = tk.Label(self.master, image=self.logo_image)
         self.logo_label.pack(side=tk.LEFT, pady=10, padx=10, anchor='ne')
 
+        # design changes for tabs and app
+        # Create an instance of ttk style
+        s = ttk.Style()
+        s.theme_use('default')
+        s.configure('TNotebook.Tab', background="#7A7585")
+        s.map("TNotebook", background= [("selected", "#7D99AD")])
+
         # lets make this tabular, new design:
         MainTabs = ttk.Notebook(self.master)
 
@@ -86,6 +93,8 @@ class DataConverterApp:
         # Data summary label
         self.summary_label1 = tk.Label(
             self.conversion_tab,
+            text = "",
+            bg= 'lightgrey',
             font =('Helvetica', 10)
             )
         self.summary_label1.pack(side=tk.BOTTOM, expand=True)
@@ -93,6 +102,7 @@ class DataConverterApp:
         # Data summary label for other tab
         self.summary_label = tk.Label(
             self.analysis_tab,
+            bg= 'lightgrey',
             text = "",
             font =('Helvetica', 10)
             )
@@ -135,7 +145,7 @@ class DataConverterApp:
         # file preview button
         self.preview_file_new = tk.Button(
             self.conversion_tab,
-            text="Preview & Summary of Raw Data from Files(s)",
+            text="Preview & Summary of Files(s)",
             command=self.file_preview,
             #bg="lightblue",
             **button_style,  # Apply the common button style
@@ -146,7 +156,7 @@ class DataConverterApp:
         # 2nd file preview button
         self.preview_file_new = tk.Button(
             self.analysis_tab,
-            text="Preview & Summary of Raw Data from Files(s)",
+            text="Preview & Summary of Files(s)",
             command=self.file_preview,
             #bg="lightblue",
             **button_style,  # Apply the common button style
@@ -159,6 +169,7 @@ class DataConverterApp:
         self.file_info_label = tk.Label(
             self.conversion_tab,
             text = " ",
+            bg= 'lightgrey',
             font =('Helvetica', 10)
             )
         self.file_info_label.pack(side=tk.BOTTOM, expand=True)
@@ -166,6 +177,7 @@ class DataConverterApp:
         # 2nd File information labels secondary tab version
         self.file_info_label1 = tk.Label(
             self.analysis_tab,
+            bg= 'lightgrey',
             text = " ",
             font =('Helvetica', 10)
             )
@@ -175,7 +187,7 @@ class DataConverterApp:
         # end progress bar
         # Repack progress bar at the end or at the desired location
         self.progress.pack_forget()  # Remove the current packing
-        self.progress.pack(side=tk.BOTTOM, pady=5, padx=5)
+        self.progress.pack(side=tk.LEFT, pady=3, padx=3)
         
 
     def choose_files(self):
@@ -500,7 +512,10 @@ if __name__ == "__main__":
     # Allow resizing both horizontally and vertically
     root.resizable(True, True)
 
-    root.title("File Conversion Application")
+    root.title("Data Forge")
+
+    root.configure(bg="#7D99AD")
+
 
     app = DataConverterApp(root)
     root.mainloop()
