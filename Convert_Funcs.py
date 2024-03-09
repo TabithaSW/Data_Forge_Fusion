@@ -167,6 +167,26 @@ def read_excel_file(file_path):
         datalist.append(row_dict)
     return datalist
 
+# new file type, parquet
+# Parquet is one of the fastest file types to read generally and much faster than either JSON or CSV.
+def read_parquet_file(filename):
+    """
+    Reads data from a Parquet file into a list of dictionaries (similar to other read functions).
+    """
+    df = pd.read_parquet(filename)
+    return df.to_dict('records')
+
+def write_parquet_file(data_list, filename=None):
+    """
+    Writes a list of dictionaries to a Parquet file, allowing users to choose the filename.
+    """
+    if filename is None:
+        filename = filedialog.asksaveasfilename(defaultextension=".parquet", filetypes=[("Parquet File", ".parquet")])
+    
+    df = pd.DataFrame(data_list)
+    df.to_parquet(filename, index=False)
+
+
 # Lets do some DBMS stuff that made go hand in hand with file conversion.
 # Teradata to start:
 def convert_teradata(server, username, password, query,output_path = None):
@@ -347,6 +367,9 @@ def create_plot(data, x_column, y_column=None, plot_type='bar'):
     if y_column:
         plt.ylabel(y_column)
     plt.show()
+
+
+
 
 def batch_jobs():
     # allow users to view jobs by area and status.
