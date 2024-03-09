@@ -22,7 +22,7 @@ class DataConverterApp:
         self.master = master
 
         # GUI Title: 
-        self.master.title("File Convertor") # Application name
+        self.master.title("Data Foundry - Forge Analytics") # Application name
 
         # Load the logo image
         self.logo_image = tk.PhotoImage(file="logo.png")  # Ensure 'logo.png' is the correct path
