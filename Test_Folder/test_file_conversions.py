@@ -15,6 +15,8 @@ import seaborn as sns
 
 # File conversion libraries:
 import xml.etree.ElementTree as ET
+import xml.dom.minidom
+
 import json
 import csv
 import openpyxl
@@ -105,11 +107,10 @@ def read_json_file(filename):
     return [data]
 
 # Writes to a JSON File Format
-def write_json_file(filename, data):
+def write_json_file(data,filename=None):
     """
     Writes JSON files. Similar to write_csv_file.
     """
-    filename = None
     if not filename:
         filename = filedialog.asksaveasfilename(defaultextension=".json",filetypes=[("JSON File",".json")])
     with open(filename, 'w') as file:
@@ -128,23 +129,26 @@ def read_xml_file(xml_file):
         data_list.append(record_dict)
     return data_list
 
-# Writes to an XML File:
-def write_xml_file(filename,data_list):
-    filename = None
+def write_xml_file(data_list, filename=None):
     if not filename:
-        filename = filedialog.asksaveasfilename(defaultextension=".xml",filetypes=[("XML File",".xml")])
+        filename = filedialog.asksaveasfilename(defaultextension=".xml", filetypes=[("XML File", ".xml")])
 
-    # there should be a single "data" node,
     root = ET.Element("data")
     for record in data_list:
-        # with as many record nodes as needed
         record_node = ET.SubElement(root, "record")
         for column, value in record.items():
-            # in each record is column node with text content for that record
             column_node = ET.SubElement(record_node, column)
             column_node.text = value
+
     tree = ET.ElementTree(root)
-    tree.write(filename)
+    # Convert the ElementTree to a string and then parse it with minidom for pretty printing
+    xml_string = ET.tostring(root, encoding='utf-8')
+    parsed_xml = xml.dom.minidom.parseString(xml_string)
+    pretty_xml_as_string = parsed_xml.toprettyxml(indent="  ")
+
+    with open(filename, 'w', encoding='utf-8') as file:
+        file.write(pretty_xml_as_string)
+
 
 
 # new file type, parquet
@@ -182,12 +186,18 @@ if __name__ == "__main__":
     """
     Test CSV
     """
+    #csv_test = read_csv_file('Test_Folder/diamonds.csv')
+    #print(csv_test[0])
 
+    #csv_w = write_csv_file(data=csv_test)
 
     """
     Test XML
     """
+    XML_TEST = read_xml_file('Test_Folder/sample_xml.xml')
+    print(XML_TEST)
 
+    xml_w = write_xml_file(XML_TEST)
 
     """
     Test JSON

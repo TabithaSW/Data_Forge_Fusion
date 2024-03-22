@@ -40,13 +40,13 @@ def read_csv_file(filename):
     return data
 
 # Writes to a CSV File Format
-def write_csv_file(filename, data):
+def write_csv_file(data,filename=None):
     """
     Takes a filename (to be writen to) and a data object 
     (created by one of the read_*_file functions). 
     Writes the data in the CSV format.
     """
-    filename = None
+    #filename = None
     if not filename:
         filename = filedialog.asksaveasfilename(defaultextension=".csv",filetypes=[("CSV File",".csv")])
     # Generate instance of new file to write:
@@ -93,22 +93,25 @@ def read_xml_file(xml_file):
     return data_list
 
 # Writes to an XML File:
-def write_xml_file(filename,data_list):
-    filename = None
+def write_xml_file(data_list, filename=None):
     if not filename:
-        filename = filedialog.asksaveasfilename(defaultextension=".xml",filetypes=[("XML File",".xml")])
+        filename = filedialog.asksaveasfilename(defaultextension=".xml", filetypes=[("XML File", ".xml")])
 
-    # there should be a single "data" node,
     root = ET.Element("data")
     for record in data_list:
-        # with as many record nodes as needed
         record_node = ET.SubElement(root, "record")
         for column, value in record.items():
-            # in each record is column node with text content for that record
             column_node = ET.SubElement(record_node, column)
             column_node.text = value
+
     tree = ET.ElementTree(root)
-    tree.write(filename)
+    # Convert the ElementTree to a string and then parse it with minidom for pretty printing
+    xml_string = ET.tostring(root, encoding='utf-8')
+    parsed_xml = xml.dom.minidom.parseString(xml_string)
+    pretty_xml_as_string = parsed_xml.toprettyxml(indent="  ")
+
+    with open(filename, 'w', encoding='utf-8') as file:
+        file.write(pretty_xml_as_string)
 
 def detect_file(file_path):
         #print("FILE PATH TES:",file_path)
