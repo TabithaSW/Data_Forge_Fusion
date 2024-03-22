@@ -39,16 +39,22 @@
 - Displays a progress bar for the file being converted.
 - Displays file selected in the application and the chosen conversion type.
 
+# Additions/Changes 12/2023 - 3/2024
+- Brand New GUI, Logo, Design, Tabular Format
+- LICENSE Update
+- Plot visualizations: (Bar, Scatter, Violin)
+- Parquet file types added.
+- Sorting in the data preview.
+
+
 # COMING SOON:
 - Connect to Tableau or Power BI.
 - File compression.
+- Basic ML Models (Linear/Logistic)
 - Convert to PDF or have an additional PDF option for download.
-- Downloading multiple copies on one run.
-- Support for other formats such as MLoad. (From MLoad to CSV for Teradata)
 - Drag and drop ability for files.
 - Allow users to make changes based off raw data in the file preview option.
 - Highlight values missing/null found from summary function.
 - Allow headers to have an assigned data type if they're in csv/excel format.
-- Allow users to look at batch jobs in ETL tables and query a command to rerun and see job status. (Teradata Specific)
 - Allow users to interact with linux/WINSCP to view batch jobs and files.
- - Allow user to use the program script in command prompt.
+- Allow user to use the program script in command prompt.
