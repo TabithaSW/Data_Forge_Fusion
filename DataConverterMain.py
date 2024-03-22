@@ -277,9 +277,18 @@ class DataConverterApp:
 
                     # Configure the columns and headings in the Treeview, and assign the sorting function to the heading command
                     for col in df_preview.columns:
+                        col_str = str(col)  # Convert column name to string to prevent errors with non-string types
+                        prev_widget.column(col_str, anchor="w")
+                        prev_widget.heading(col_str, text=col_str.capitalize(), anchor="w",
+                                            command=lambda c=col_str: toggle_sort(c))
+                        
+                    """
+                    Old code:
+                    for col in df_preview.columns:
                         prev_widget.column(col, anchor="w")
                         prev_widget.heading(col, text=col.capitalize(), anchor="w",
                                             command=lambda c=col: toggle_sort(c))
+                    """
 
                     # create scrollbar instance
                     my_scroll = ttk.Scrollbar(frame_2,orient="vertical",command=prev_widget.yview )

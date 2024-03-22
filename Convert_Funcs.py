@@ -269,8 +269,10 @@ def display_teradata_preview(query_result,headers=None):
 
     # Set up columns and headings with sorting functionality
     for col in df_prev.columns:
-        tree.column(col, anchor="w")
-        tree.heading(col, text=col.capitalize(), anchor="w", command=lambda c=col: toggle_sort(c))
+        col_str = str(col)  # Convert column name to string to prevent errors with non-string types
+        tree.column(col_str, anchor="w")
+        tree.heading(col_str, text=col_str.capitalize(), anchor="w",
+                            command=lambda c=col_str: toggle_sort(c))
 
     scrollb = ttk.Scrollbar(frame, orient = "vertical", command = tree.yview)
     scrollb.pack(side = "right", fill = "y")
