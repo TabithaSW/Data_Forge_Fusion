@@ -192,7 +192,7 @@ class DataConverterApp:
 
     def choose_files(self):
         # Options for conversion:
-        file_options = ["CSV", "JSON", "XML","csv","json","xml","excel","EXCEL"]
+        file_options = ["CSV", "JSON", "XML","csv","json","xml","excel","EXCEL","PARQUET","parquet"]
 
         # Temporary file name until user downloads coverted file and choose new name:
         new_file_name = "Converted_File"
@@ -200,7 +200,8 @@ class DataConverterApp:
 
         # What file does the user want to convert? Prompt the user to select a file from their PC.
         file_path = filedialog.askopenfilenames(title="Select File",filetypes=(("CSV","*.csv"),("JSON",'*.json'),
-                                                                               ("XML","*.xml"),("Excel","*.xlsx"))) 
+                                                                               ("XML","*.xml"),("Excel","*.xlsx"),
+                                                                               ("Parquet File", ".parquet"))) 
 
         # tuple to list format
         file_path = list(file_path)
@@ -309,19 +310,23 @@ class DataConverterApp:
                     
                     if user_choice.lower() == "csv":
                         self.show_loading_bar()
-                        Convert_Funcs.write_csv_file(filename=new_file_name, data=temp_data)
+                        Convert_Funcs.write_csv_file(data=temp_data)
 
                     elif user_choice.lower() == "xml":
                         self.show_loading_bar()
-                        Convert_Funcs.write_xml_file(filename=new_file_name, data_list=temp_data)
+                        Convert_Funcs.write_xml_file(data_list=temp_data)
 
                     elif user_choice.lower() == "json":
                         self.show_loading_bar()
-                        Convert_Funcs.write_json_file(filename=new_file_name, data=temp_data)
+                        Convert_Funcs.write_json_file(data=temp_data)
 
                     elif user_choice.lower() == "excel":
                         self.show_loading_bar()
-                        Convert_Funcs.write_excel_file(filepath=new_file_name,datalist=temp_data)
+                        Convert_Funcs.write_excel_file(datalist=temp_data)
+                    
+                    elif user_choice.lower() == "parquet":
+                        self.show_loading_bar()
+                        Convert_Funcs.write_parquet_file(data=temp_data)
 
                     # Complete loading bar
                     self.hide_loading_bar()
@@ -339,7 +344,8 @@ class DataConverterApp:
     def left_join(self):
         # What files does the user want to join
         file_path = filedialog.askopenfilenames(title="Select File",filetypes=(("CSV","*.csv"),("JSON",'*.json'),
-                                                                               ("XML","*.xml"),("Excel","*.xlsx")))
+                                                                               ("XML","*.xml"),("Excel","*.xlsx"),
+                                                                               ("Parquet File", ".parquet")))
 
         # tuple to list format
         file_path = list(file_path)
@@ -378,7 +384,7 @@ class DataConverterApp:
     def file_preview(self):
         # What file does the user want to convert? Prompt the user to select a file from their PC.
         file_path = filedialog.askopenfilenames(title="Select Single File for Preview",filetypes=(("CSV","*.csv"),("JSON",'*.json'),
-                                                                               ("XML","*.xml"),("Excel","*.xlsx")))
+                                                                               ("XML","*.xml"),("Excel","*.xlsx"),("Parquet File", ".parquet")))
         file_path = list(file_path) #convert from tuple
         raw_data = Convert_Funcs.detect_file(file_path[0])
 
@@ -399,7 +405,7 @@ class DataConverterApp:
     
     def plot_analysis(self):
         file_path = filedialog.askopenfilenames(title="Select Single File for Preview",filetypes=(("CSV","*.csv"),("JSON",'*.json'),
-                                                                               ("XML","*.xml"),("Excel","*.xlsx")))
+                                                                               ("XML","*.xml"),("Excel","*.xlsx"),("Parquet File", ".parquet")))
         file_path = list(file_path) #convert from tuple
         raw_data = Convert_Funcs.detect_file(file_path[0]) # creates the raw data 
         df_preview = pd.DataFrame(raw_data) # turn it into a pd dataframe
@@ -512,7 +518,7 @@ if __name__ == "__main__":
     # Allow resizing both horizontally and vertically
     root.resizable(True, True)
 
-    root.title("Data Forge")
+    root.title("Data Forge Fusion")
 
     root.configure(bg="#7D99AD")
 

@@ -74,16 +74,12 @@ def read_json_file(filename):
 def write_json_file(data, filename=None):
     """
     Writes JSON files with formatted indentation.
-    Assumes data is a list and writes the first element to the file.
     """
     if not filename:
         filename = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON File", ".json")])
     
     with open(filename, 'w') as file:
-        if isinstance(data, list) and len(data) > 0:
-            json.dump(data[0], file, indent=4)  # Writes only the first dictionary element of the list
-        else:
-            json.dump(data, file, indent=4)  # Handle non-list data normally
+        json.dump(data, file, indent=4)  # Writes the entire data list to the file
 
 # Reads an XML file
 def read_xml_file(xml_file):
@@ -119,7 +115,11 @@ def write_xml_file(data_list, filename=None):
         file.write(pretty_xml_as_string)
 
 def detect_file(file_path):
-        #print("FILE PATH TES:",file_path)
+        """
+        Calls all the custom read functions for xml, csv, excel, parquet, json.
+        
+        """
+        #print("DETECT FILE PATH TEST:",file_path)
         # When user is prompted to choose a file, we need to ensure it is correctly identified before conversion.
         x, file_extension = os.path.splitext(file_path) # X is root, rest is the extension, x is throwaway var.
 
@@ -131,13 +131,15 @@ def detect_file(file_path):
             return read_xml_file(file_path)
         elif file_extension == ".xlsx":
             return read_excel_file(file_path)
+        elif file_extension == ".parquet":
+            return read_parquet_file(file_path)
         else:
             return read_json_file(file_path)
         
 def prompt_file_choice(file_path):
-        file_options = ["CSV", "JSON", "XML","csv","json","xml","excel","EXCEL"]
+        file_options = ["CSV", "JSON", "XML","csv","json","xml","excel","EXCEL","PARQUET","parquet"]
         file_name = os.path.basename(file_path)
-        user_choice = simpledialog.askstring(f"{file_name} Conversion Options","CSV, JSON, EXCEL, or XML?",initialvalue=file_options[0])
+        user_choice = simpledialog.askstring(f"{file_name} Conversion Options","CSV, JSON, EXCEL, PARQUET, or XML?",initialvalue=file_options[0])
         if user_choice.lower() in [option.lower() for option in file_options]:
             return user_choice
         else:
@@ -165,7 +167,7 @@ def write_excel_file(datalist,filepath=None):
 
 # changed to using openpyxl because of pandas limit
 def read_excel_file(file_path):
-    # excel files are workbooks compirsed of individual sheets of data
+    # excel files are workbooks comprised of individual sheets of data
     workbook = openpyxl.load_workbook(file_path)
     sheet = workbook.active
     headers = [cell.value for cell in sheet[1]]
@@ -186,14 +188,14 @@ def read_parquet_file(filename):
     df = pd.read_parquet(filename)
     return df.to_dict('records')
 
-def write_parquet_file(data_list, filename=None):
+def write_parquet_file(data, filename=None):
     """
     Writes a list of dictionaries to a Parquet file, allowing users to choose the filename.
     """
-    if filename is None:
+    if not filename:
         filename = filedialog.asksaveasfilename(defaultextension=".parquet", filetypes=[("Parquet File", ".parquet")])
     
-    df = pd.DataFrame(data_list)
+    df = pd.DataFrame(data)
     df.to_parquet(filename, index=False)
 
 
@@ -323,12 +325,12 @@ def file_merge(data1,data2):
     merge_dfs = dd.merge(df1,df2,how=j_type,on=j_col) # check for multi col abilities for on
 
     # let user choose format and name post merge
-    output_type = simpledialog.askstring("Output File Type","Choose Output File Type (CSV, JSON, XML, EXCEL):")
+    output_type = simpledialog.askstring("Output File Type","Choose Output File Type (CSV, JSON, XML, EXCEL, PARQUET):")
     name = filedialog.asksaveasfilename(defaultextension=f".{output_type.lower()}",
                                         filetypes=[(f"{output_type} File",f".{output_type.lower()}")])
     
-    # check file type to compute the change from the merged filetye
-    # can use my write funcs with this merge df from dask, need to use dask funcs
+    # check file type to compute the change from the merged filetype
+    # cant use my write funcs with this merge df from dask, need to use dask funcs (unfortunately)
     if output_type.lower() == "csv":
         merge_dfs.compute().to_csv(name,index = False)
     elif output_type.lower() == "xml":
@@ -337,6 +339,8 @@ def file_merge(data1,data2):
         merge_dfs.compute().to_json(name,orient = 'records',lines = True) # same to json as my own func result
     elif output_type.lower() == "excel":
         merge_dfs.compute().to_excel(name,index = False)
+    elif output_type.lower() == "parquet":
+        merge_dfs.compute().to_parquet(name,index=False)
     else:
         warn = messagebox.askokcancel("No Valid File Format", icon="warning")
     return name
@@ -378,13 +382,6 @@ def create_plot(data, x_column, y_column=None, plot_type='bar'):
         plt.ylabel(y_column)
     plt.show()
 
-
-
-
-def batch_jobs():
-    # allow users to view jobs by area and status.
-    # allow users to run the job using teradata commands.
-    pass
 
 def commands_p():
     # cli commands for terminal use of application
