@@ -32,10 +32,10 @@ import tkinter.scrolledtext as tkst
 import tkinterdnd2
 
 # NEW FORMAT, EXCEL:
-def write_excel_file(datalist,filepath):
+def write_excel_file(datalist,filepath=None):
     # allow users to choose filename
-    filename = os.path.basename(filepath)
-    custom_name = filedialog.asksaveasfilename(defaultextension=".xlsx",filetypes=[("Excel File",".xlsx")])
+    if not filepath:
+        filepath = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel File", ".xlsx")])
 
     # create excel template workbook
     workbook = openpyxl.Workbook()
@@ -47,7 +47,7 @@ def write_excel_file(datalist,filepath):
 
     for dict_ in datalist:
         sheet.append([dict_[header] for header in headers])
-    workbook.save(custom_name)
+    workbook.save(filepath)
 
 # changed to using openpyxl because of pandas limit
 def read_excel_file(file_path):
@@ -207,11 +207,16 @@ if __name__ == "__main__":
     Test JSON
     """
 
-    json_test = read_json_file('Test_Folder/join_test.json')
-    print(json_test)
+    #json_test = read_json_file('Test_Folder/join_test.json')
+    #print(json_test)
 
-    j_w = write_json_file(json_test)
+    #j_w = write_json_file(json_test)
 
     """
     Test Excel
     """
+
+    #excel_test = read_excel_file('Test_Folder/fruit_excel.xlsx')
+    #print(excel_test)
+
+    #ex_w = write_excel_file(excel_test)

@@ -143,11 +143,12 @@ def prompt_file_choice(file_path):
         else:
             messagebox.showwarning("Conversion Cancelled")
 
-# NEW FORMAT, EXCEL:
-def write_excel_file(datalist,filepath):
+
+# fixed 2024 excel
+def write_excel_file(datalist,filepath=None):
     # allow users to choose filename
-    filename = os.path.basename(filepath)
-    custom_name = filedialog.asksaveasfilename(defaultextension=".xlsx",filetypes=[("Excel File",".xlsx")])
+    if not filepath:
+        filepath = filedialog.asksaveasfilename(defaultextension=".xlsx", filetypes=[("Excel File", ".xlsx")])
 
     # create excel template workbook
     workbook = openpyxl.Workbook()
@@ -159,7 +160,8 @@ def write_excel_file(datalist,filepath):
 
     for dict_ in datalist:
         sheet.append([dict_[header] for header in headers])
-    workbook.save(custom_name)
+    workbook.save(filepath)
+
 
 # changed to using openpyxl because of pandas limit
 def read_excel_file(file_path):
