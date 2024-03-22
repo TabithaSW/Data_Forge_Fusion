@@ -9,6 +9,8 @@ import seaborn as sns
 
 # File conversion libraries:
 import xml.etree.ElementTree as ET
+import xml.dom.minidom
+
 import json
 import csv
 import openpyxl
@@ -69,16 +71,19 @@ def read_json_file(filename):
     return [data]
 
 # Writes to a JSON File Format
-def write_json_file(filename, data):
+def write_json_file(data, filename=None):
     """
-    Writes JSON files. Similar to write_csv_file.
+    Writes JSON files with formatted indentation.
+    Assumes data is a list and writes the first element to the file.
     """
-    filename = None
     if not filename:
-        filename = filedialog.asksaveasfilename(defaultextension=".json",filetypes=[("JSON File",".json")])
+        filename = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON File", ".json")])
+    
     with open(filename, 'w') as file:
-        json_new = json.dumps(data)
-        file.write(json_new)
+        if isinstance(data, list) and len(data) > 0:
+            json.dump(data[0], file, indent=4)  # Writes only the first dictionary element of the list
+        else:
+            json.dump(data, file, indent=4)  # Handle non-list data normally
 
 # Reads an XML file
 def read_xml_file(xml_file):

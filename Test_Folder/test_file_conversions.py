@@ -106,16 +106,20 @@ def read_json_file(filename):
         data = json.load(json_file)
     return [data]
 
-# Writes to a JSON File Format
-def write_json_file(data,filename=None):
+# write json new 2024
+def write_json_file(data, filename=None):
     """
-    Writes JSON files. Similar to write_csv_file.
+    Writes JSON files with formatted indentation.
+    Assumes data is a list and writes the first element to the file.
     """
     if not filename:
-        filename = filedialog.asksaveasfilename(defaultextension=".json",filetypes=[("JSON File",".json")])
+        filename = filedialog.asksaveasfilename(defaultextension=".json", filetypes=[("JSON File", ".json")])
+    
     with open(filename, 'w') as file:
-        json_new = json.dumps(data)
-        file.write(json_new)
+        if isinstance(data, list) and len(data) > 0:
+            json.dump(data[0], file, indent=4)  # Writes only the first dictionary element of the list
+        else:
+            json.dump(data, file, indent=4)  # Handle non-list data normally
 
 # Reads an XML file
 def read_xml_file(xml_file):
@@ -194,14 +198,19 @@ if __name__ == "__main__":
     """
     Test XML
     """
-    XML_TEST = read_xml_file('Test_Folder/sample_xml.xml')
-    print(XML_TEST)
+    #XML_TEST = read_xml_file('Test_Folder/sample_xml.xml')
+    #print(XML_TEST)
 
-    xml_w = write_xml_file(XML_TEST)
+    #xml_w = write_xml_file(XML_TEST)
 
     """
     Test JSON
     """
+
+    json_test = read_json_file('Test_Folder/join_test.json')
+    print(json_test)
+
+    j_w = write_json_file(json_test)
 
     """
     Test Excel
