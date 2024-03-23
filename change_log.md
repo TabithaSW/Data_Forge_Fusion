@@ -1,4 +1,12 @@
 
+# Additions/Changes 12/15 - 3/22 (2024)
+- Brand New GUI, Logo, Design, Tabular Format
+- LICENSE Update
+- Plot visualizations: (Bar, Scatter, Violin)
+- Parquet file types added.
+- Sorting in the data preview.
+- Bug fixing! Preview column headers string issue, xml/json format bugs.
+- File compression added.
 
 # Additions/Changes 12/14:
 - Added the ability for the user to select more join types, (inner, left, right, outer) and join on column.
@@ -39,14 +47,7 @@
 - Displays a progress bar for the file being converted.
 - Displays file selected in the application and the chosen conversion type.
 
-# Additions/Changes 12/2023 - 3/2024
-- Brand New GUI, Logo, Design, Tabular Format
-- LICENSE Update
-- Plot visualizations: (Bar, Scatter, Violin)
-- Parquet file types added.
-- Sorting in the data preview.
-- Bug fixing! Preview column headers string issue, xml/json format bugs.
-- File compression added.
+
 
 
 # COMING SOON:
