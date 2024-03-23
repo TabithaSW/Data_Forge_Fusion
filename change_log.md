@@ -45,12 +45,12 @@
 - Plot visualizations: (Bar, Scatter, Violin)
 - Parquet file types added.
 - Sorting in the data preview.
-- Bug fixing!
+- Bug fixing! Preview column headers string issue, xml/json format bugs.
+- File compression added.
 
 
 # COMING SOON:
 - Connect to Tableau or Power BI.
-- File compression.
 - Basic ML Models (Linear/Logistic)
 - Convert to PDF or have an additional PDF option for download.
 - Drag and drop ability for files.
