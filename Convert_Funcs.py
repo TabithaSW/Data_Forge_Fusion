@@ -4,6 +4,11 @@ import pandas as pd
 import numpy as np
 import teradatasql
 
+# file compression
+import zipfile
+import os
+
+#plots
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -383,6 +388,35 @@ def create_plot(data, x_column, y_column=None, plot_type='bar'):
     if y_column:
         plt.ylabel(y_column)
     plt.show()
+
+def compress_file(input_filepath=None, output_zippath=None):
+    """
+    Compress a file into a ZIP archive, allowing the user to choose the output path.
+
+    :param input_file_path: Path to the file to be compressed.
+    :param output_zip_path: Path to the output ZIP file. If None, a dialog will ask the user for the location.
+    """
+    if input_filepath is not None and isinstance(input_filepath, tuple):
+        input_filepath = input_filepath[0]
+
+    print(input_filepath)
+
+    if not output_zippath:
+        output_zippath = filedialog.asksaveasfilename(
+            defaultextension=".zip",
+            filetypes=[("ZIP files", "*.zip")],
+            title="Save ZIP file as"
+        )
+
+    # If the user cancels the save operation, exit the function
+    if not output_zippath:
+        print("Compression canceled.")
+        return
+
+    with zipfile.ZipFile(output_zippath, 'w', zipfile.ZIP_DEFLATED) as zipf:
+        zipf.write(input_filepath, os.path.basename(input_filepath))
+
+    print(f"File {input_filepath} compressed to {output_zippath}")
 
 
 def commands_p():

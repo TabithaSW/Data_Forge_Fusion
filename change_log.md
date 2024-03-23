@@ -45,6 +45,7 @@
 - Plot visualizations: (Bar, Scatter, Violin)
 - Parquet file types added.
 - Sorting in the data preview.
+- Bug fixing!
 
 
 # COMING SOON:

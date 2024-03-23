@@ -45,7 +45,7 @@ class DataConverterApp:
 
         self.progress = ttk.Progressbar(
             self.master,
-            length=200,
+            length=450,
             mode="determinate",
             style="TProgressbar"
             )
@@ -141,6 +141,17 @@ class DataConverterApp:
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
         self.choose_file_button.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
+
+        # Compress file
+        self.compress_file_btn = tk.Button(
+            self.conversion_tab,
+            text="Compress File",
+            command=self.compress,
+            #bg="lightblue",
+            **button_style,  # Apply the common button style
+            cursor="hand2" # allows diff cursor over button, user knows to click
+            )
+        self.compress_file_btn.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
         # file preview button
         self.preview_file_new = tk.Button(
@@ -404,6 +415,17 @@ class DataConverterApp:
 
         Convert_Funcs.display_teradata_preview(raw_data)
         return
+    
+    def compress(self):
+        # What file does the user want to convert? Prompt the user to select a file from their PC.
+        file_path = filedialog.askopenfilenames(title="Select File for Compression",filetypes=(("CSV","*.csv"),("JSON",'*.json'),
+                                                                               ("XML","*.xml"),("Excel","*.xlsx"),("Parquet File", ".parquet")))
+        test_comp = Convert_Funcs.compress_file(input_filepath=file_path) # should print if working
+        response = messagebox.askyesno("Compress File", "Would you like to compress another file or continue using application?")
+        if not response:
+            self.master.destroy()  # Close the application if the user chooses not to convert another file
+        return
+
     
     def open_bug_report_form(self):
         response = messagebox.askyesno(title="Bug Report Form",message="The Bug Report Form requires WIFI and Google sign in. Would you like to proceed?")
