@@ -16,6 +16,10 @@ import seaborn as sns
 # Import the read/write functions
 import Convert_Funcs
 
+# duplication check libraries
+import json
+import csv
+
 # bug report packages
 import webbrowser
 

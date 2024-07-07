@@ -1,4 +1,9 @@
 
+# Additions/Changes 6/2024 - 7/2024:
+- Duplicate record detection has just been added, but it still in testing. Works for CSV and Excel currently.
+- Working on correllation matrix plot creation.
+- Remove duplicate records added, works for CSV currently.
+
 # Additions/Changes 12/15 - 3/22 (2024)
 - Brand New GUI, Logo, Design, Tabular Format
 - LICENSE Update
