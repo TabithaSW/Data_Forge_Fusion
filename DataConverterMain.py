@@ -33,6 +33,11 @@ class DataConverterApp:
         self.logo_label = tk.Label(self.master, image=self.logo_image)
         self.logo_label.pack(side=tk.LEFT, pady=10, padx=10, anchor='ne')
 
+        # Display the logo text below the logo image
+        #self.logo_text = tk.Label(self.master, text="File Types: CSV, EXCEL, PARQUET, JSON, XML")
+        #self.logo_text.pack(side=tk.LEFT, pady=10, padx=10, anchor='ne')
+
+
         # design changes for tabs and app
         # Create an instance of ttk style
         s = ttk.Style()
