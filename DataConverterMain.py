@@ -9,6 +9,10 @@ import numpy as np
 import pandas as pd
 import os
 
+#plots
+import matplotlib.pyplot as plt
+import seaborn as sns
+
 # Import the read/write functions
 import Convert_Funcs
 
@@ -124,6 +128,16 @@ class DataConverterApp:
             cursor="hand2" # allows diff cursor over button, user knows to click
             )
         self.left_merge.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
+
+         # Duplicate Detection button (NEW)
+        self.duplicate_detection_btn = tk.Button(
+            self.analysis_tab,
+            text="Duplicate Detection",
+            command=self.duplicate_detection,
+            **button_style,  # Apply the common button style
+            cursor="hand2"  # allows different cursor over button, user knows to click
+        )
+        self.duplicate_detection_btn.pack(side=tk.TOP, anchor='w', padx=10, pady=5)
 
         # Teradata button:
         self.connect_to_tera_button = tk.Button(
@@ -535,6 +549,57 @@ class DataConverterApp:
             if not response:
                 self.master.destroy()  # Close the application if the user chooses not to convert another file
             return query_res
+
+
+    def duplicate_detection(self):
+        # Prompt the user to select a file
+        file_path = filedialog.askopenfilename(title="Select File for Duplicate Detection", 
+                                            filetypes=[("CSV", "*.csv"), ("JSON", "*.json"), ("XML", "*.xml"), ("Excel", "*.xlsx"), ("Parquet File", "*.parquet")])
+        
+        if not file_path:
+            return
+
+        # Detect file type and read data
+        data = Convert_Funcs.detect_file(file_path)
+        
+        # Create a DataFrame
+        df = pd.DataFrame(data)
+
+        # Convert nested structures to string for detection if necessary
+        df = df.applymap(lambda x: json.dumps(x) if isinstance(x, dict) else x)
+
+        # Detect duplicates
+        duplicates = df[df.duplicated()]
+
+        if not duplicates.empty:
+            duplicates_window = tk.Toplevel(self.master)
+            duplicates_window.title("Duplicate Records")
+
+            frame = ttk.Frame(duplicates_window)
+            frame.pack(expand=True, fill="both")
+
+            tree = ttk.Treeview(frame, columns=list(duplicates.columns), show="headings")
+            for col in duplicates.columns:
+                tree.heading(col, text=col)
+                tree.column(col, width=100, anchor='w')
+
+            for _, row in duplicates.iterrows():
+                tree.insert("", "end", values=list(row))
+
+            tree.pack(expand=True, fill="both")
+
+            remove_duplicates_btn = tk.Button(duplicates_window, text="Remove Duplicates", command=lambda: self.remove_duplicates(df, duplicates, duplicates_window))
+            remove_duplicates_btn.pack(side="bottom", pady=10)
+
+        else:
+            messagebox.showinfo("Duplicate Detection", "No duplicate records found.")
+
+    def remove_duplicates(self, df, duplicates, window):
+        df.drop_duplicates(inplace=True)
+        messagebox.showinfo("Duplicate Detection", "Duplicate records removed.")
+        window.destroy()
+
+
 
 
     # Allow users to double check the file they selected by viewing it'sname and type.
