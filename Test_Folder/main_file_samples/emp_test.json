@@ -1,0 +1,41 @@
+{
+    "employees": [
+      {
+        "employee_id": 1,
+        "first_name": "Alice",
+        "last_name": "Johnson",
+        "department_id": 101,
+        "hire_date": "2020-05-15",
+        "salary": 75000
+      },
+      {
+        "employee_id": 2,
+        "first_name": "Bob",
+        "last_name": "Smith",
+        "department_id": 102,
+        "hire_date": "2019-03-20",
+        "salary": 68000
+      },
+      {
+        "employee_id": 3,
+        "first_name": "Charlie",
+        "last_name": "Brown",
+        "department_id": 101,
+        "hire_date": "2021-07-10",
+        "salary": 72000
+      }
+    ],
+    "departments": [
+      {
+        "department_id": 101,
+        "department_name": "Engineering",
+        "manager": "Daniel White"
+      },
+      {
+        "department_id": 102,
+        "department_name": "Human Resources",
+        "manager": "Emily Davis"
+      }
+    ]
+  }
+  

@@ -97,14 +97,31 @@ def write_csv_file(filename, data):
         for entry in data:
             writer.writerow(entry)
 
-# Reads in a JSON File
 def read_json_file(filename):
     """
-    Similar to read_csv_file, except works for JSON files.
+    Reads a JSON file and returns the data as a list of dictionaries.
+    Handles two types of JSON structures:
+    1. A single JSON object: { "key": "value", ... }
+    2. A nested JSON object with a table-like structure: { "table_name": [ {...}, {...} ] }
     """
-    with open(filename) as json_file:
+    with open(filename, 'r') as json_file:
         data = json.load(json_file)
-    return [data]
+    
+    if isinstance(data, dict):
+        # If the data is a dictionary, check if it contains a table-like structure
+        # (a single key with a list of dictionaries as value).
+        if len(data) == 1 and isinstance(next(iter(data.values())), list):
+            # Extract the list of dictionaries
+            return next(iter(data.values()))
+        else:
+            # Otherwise, return the dictionary as a single-element list
+            return [data]
+    elif isinstance(data, list):
+        # If the data is already a list of dictionaries, return it directly
+        return data
+    else:
+        # If the data format is unexpected, raise an error
+        raise ValueError("Unsupported JSON format")
 
 # write json new 2024
 def write_json_file(data, filename=None):
@@ -191,6 +208,8 @@ if __name__ == "__main__":
     Test CSV
     """
     #csv_test = read_csv_file('Test_Folder/diamonds.csv')
+    #csv_test = read_csv_file('Test_Folder/employees_test.csv')
+    #print(csv_test)
     #print(csv_test[0])
 
     #csv_w = write_csv_file(data=csv_test)
@@ -206,9 +225,12 @@ if __name__ == "__main__":
     """
     Test JSON
     """
+    json_test = read_json_file('Test_Folder/join_test.json')
+    print(json_test)
+    json_test = read_json_file('Test_Folder/export_test.json')
+    print(json_test)
 
-    #json_test = read_json_file('Test_Folder/join_test.json')
-    #print(json_test)
+    
 
     #j_w = write_json_file(json_test)
 

@@ -1,0 +1,4 @@
+employee_id,first_name,last_name,department_id,hire_date,salary
+1,Alice,Johnson,101,2020-05-15,75000
+2,Bob,Smith,102,2019-03-20,68000
+3,Charlie,Brown,101,2021-07-10,72000
