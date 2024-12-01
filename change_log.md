@@ -1,4 +1,9 @@
 
+# 11/2024 
+- Added support for nested JSON files.
+- Updated application with new logo.
+- Added more test files for the conversion functions.
+
 # Additions/Changes 6/2024 - 7/2024:
 - Duplicate record detection has just been added, but it still in testing. Works for CSV and Excel currently.
 - Working on correllation matrix plot creation.
