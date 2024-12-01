@@ -33,7 +33,7 @@ class DataConverterApp:
         self.master.title("Data Foundry - Forge Analytics") # Application name
 
         # Load the logo image
-        self.logo_image = tk.PhotoImage(file="logo.png")  # Ensure 'logo.png' is the correct path
+        self.logo_image = tk.PhotoImage(file="Forge.png")  # Ensure 'logo.png' is the correct path
         # Resize the logo image (adjust the subsample values as needed to fit your GUI)
         self.logo_image = self.logo_image.subsample(4, 4)  # Example: subsample to 1/3 of the original size
 
