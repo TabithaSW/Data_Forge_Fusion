@@ -1,5 +1,4 @@
 # Data Forge Fusion
- ![Figure 1](Forge.png) 
 
 **Data Forge Fusion** simplifies your data tasks, offering a straightforward toolkit for anyone looking to convert, analyze, and visualize data with ease. From XML to JSON, CSV to Excel, and even Parquet; Data Forge handles a variety of formats, allowing seamless conversions and direct connections to databases for comprehensive data management.
 
